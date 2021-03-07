@@ -16,6 +16,8 @@
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+	<key>NSCameraUsageDescription</key>
+	<string>录入商品码和添加商品照片</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 </dict>

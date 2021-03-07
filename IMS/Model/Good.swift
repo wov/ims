@@ -19,6 +19,8 @@ struct Good:Hashable,Codable,Identifiable {
     var stock: Float
     var ots: Bool //是否缺货
     var src: String
+    var price: String
+    var barCode: String //条码
     
     var category: Category
     
