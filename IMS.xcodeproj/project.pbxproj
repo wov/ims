@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,16 @@
 		8322E07B25D6414D00B4D11F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8322E07A25D6414D00B4D11F /* Preview Assets.xcassets */; };
 		8322E08625D6414D00B4D11F /* IMSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8322E08525D6414D00B4D11F /* IMSTests.swift */; };
 		8322E09125D6414D00B4D11F /* IMSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8322E09025D6414D00B4D11F /* IMSUITests.swift */; };
+		8322E0B725D6685500B4D11F /* Good.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8322E0B625D6685500B4D11F /* Good.swift */; };
+		8322E0BC25D6693400B4D11F /* goodsData.json in Resources */ = {isa = PBXBuildFile; fileRef = 8322E0BB25D6693400B4D11F /* goodsData.json */; };
+		8322E0C125D66AAF00B4D11F /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8322E0C025D66AAF00B4D11F /* ModelData.swift */; };
+		8322E0D725D66EBE00B4D11F /* GoodRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8322E0D625D66EBE00B4D11F /* GoodRow.swift */; };
+		8334212E25D69B97005C3944 /* GoodList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8334212D25D69B97005C3944 /* GoodList.swift */; };
+		8360E4E125E20FB3009B5C39 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8360E4E025E20FB3009B5C39 /* ImageLoader.swift */; };
+		837E90ED25F4479300DED288 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 837E90EC25F4479300DED288 /* CodeScanner */; };
+		83CD9E0825D89044000DFF62 /* GoodDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CD9E0725D89044000DFF62 /* GoodDetail.swift */; };
+		83CD9E0D25D89737000DFF62 /* AddGood.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CD9E0C25D89737000DFF62 /* AddGood.swift */; };
+		83F6AA6325D7A09900CE6217 /* Goods.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 83F6AA6125D7A09900CE6217 /* Goods.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +55,15 @@
 		8322E08C25D6414D00B4D11F /* IMSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IMSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8322E09025D6414D00B4D11F /* IMSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IMSUITests.swift; sourceTree = "<group>"; };
 		8322E09225D6414D00B4D11F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8322E0B625D6685500B4D11F /* Good.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Good.swift; sourceTree = "<group>"; };
+		8322E0BB25D6693400B4D11F /* goodsData.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = goodsData.json; sourceTree = "<group>"; };
+		8322E0C025D66AAF00B4D11F /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
+		8322E0D625D66EBE00B4D11F /* GoodRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodRow.swift; sourceTree = "<group>"; };
+		8334212D25D69B97005C3944 /* GoodList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodList.swift; sourceTree = "<group>"; };
+		8360E4E025E20FB3009B5C39 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		83CD9E0725D89044000DFF62 /* GoodDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodDetail.swift; sourceTree = "<group>"; };
+		83CD9E0C25D89737000DFF62 /* AddGood.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGood.swift; sourceTree = "<group>"; };
+		83F6AA6225D7A09900CE6217 /* Goods.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Goods.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				837E90ED25F4479300DED288 /* CodeScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,8 +115,11 @@
 		8322E07225D6414C00B4D11F /* IMS */ = {
 			isa = PBXGroup;
 			children = (
+				8360E4DF25E20F89009B5C39 /* helper */,
 				8322E07325D6414C00B4D11F /* IMSApp.swift */,
-				8322E07525D6414C00B4D11F /* ContentView.swift */,
+				8322E0CA25D66D8500B4D11F /* Model */,
+				8322E0C925D66D5C00B4D11F /* Resources */,
+				8322E0C825D66D3B00B4D11F /* Views */,
 				8322E07725D6414D00B4D11F /* Assets.xcassets */,
 				8322E07C25D6414D00B4D11F /* Info.plist */,
 				8322E07925D6414D00B4D11F /* Preview Content */,
@@ -130,6 +153,44 @@
 			path = IMSUITests;
 			sourceTree = "<group>";
 		};
+		8322E0C825D66D3B00B4D11F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8322E07525D6414C00B4D11F /* ContentView.swift */,
+				8322E0D625D66EBE00B4D11F /* GoodRow.swift */,
+				8334212D25D69B97005C3944 /* GoodList.swift */,
+				83CD9E0725D89044000DFF62 /* GoodDetail.swift */,
+				83CD9E0C25D89737000DFF62 /* AddGood.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		8322E0C925D66D5C00B4D11F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8322E0BB25D6693400B4D11F /* goodsData.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		8322E0CA25D66D8500B4D11F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				83F6AA6125D7A09900CE6217 /* Goods.xcdatamodeld */,
+				8322E0C025D66AAF00B4D11F /* ModelData.swift */,
+				8322E0B625D6685500B4D11F /* Good.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8360E4DF25E20F89009B5C39 /* helper */ = {
+			isa = PBXGroup;
+			children = (
+				8360E4E025E20FB3009B5C39 /* ImageLoader.swift */,
+			);
+			path = helper;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -146,6 +207,9 @@
 			dependencies = (
 			);
 			name = IMS;
+			packageProductDependencies = (
+				837E90EC25F4479300DED288 /* CodeScanner */,
+			);
 			productName = IMS;
 			productReference = 8322E07025D6414C00B4D11F /* IMS.app */;
 			productType = "com.apple.product-type.application";
@@ -217,6 +281,9 @@
 				Base,
 			);
 			mainGroup = 8322E06725D6414C00B4D11F;
+			packageReferences = (
+				837E90EB25F4479300DED288 /* XCRemoteSwiftPackageReference "CodeScanner" */,
+			);
 			productRefGroup = 8322E07125D6414C00B4D11F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -235,6 +302,7 @@
 			files = (
 				8322E07B25D6414D00B4D11F /* Preview Assets.xcassets in Resources */,
 				8322E07825D6414D00B4D11F /* Assets.xcassets in Resources */,
+				8322E0BC25D6693400B4D11F /* goodsData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,8 +327,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83CD9E0D25D89737000DFF62 /* AddGood.swift in Sources */,
+				8334212E25D69B97005C3944 /* GoodList.swift in Sources */,
+				8360E4E125E20FB3009B5C39 /* ImageLoader.swift in Sources */,
+				8322E0B725D6685500B4D11F /* Good.swift in Sources */,
+				83F6AA6325D7A09900CE6217 /* Goods.xcdatamodeld in Sources */,
+				8322E0C125D66AAF00B4D11F /* ModelData.swift in Sources */,
 				8322E07625D6414C00B4D11F /* ContentView.swift in Sources */,
 				8322E07425D6414C00B4D11F /* IMSApp.swift in Sources */,
+				8322E0D725D66EBE00B4D11F /* GoodRow.swift in Sources */,
+				83CD9E0825D89044000DFF62 /* GoodDetail.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -580,6 +656,39 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		837E90EB25F4479300DED288 /* XCRemoteSwiftPackageReference "CodeScanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/CodeScanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		837E90EC25F4479300DED288 /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 837E90EB25F4479300DED288 /* XCRemoteSwiftPackageReference "CodeScanner" */;
+			productName = CodeScanner;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		83F6AA6125D7A09900CE6217 /* Goods.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				83F6AA6225D7A09900CE6217 /* Goods.xcdatamodel */,
+			);
+			currentVersion = 83F6AA6225D7A09900CE6217 /* Goods.xcdatamodel */;
+			name = Goods.xcdatamodeld;
+			path = ../Goods.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 8322E06825D6414C00B4D11F /* Project object */;
 }
