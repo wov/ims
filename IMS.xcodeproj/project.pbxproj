@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A31EA0CB12F4C4A8975B788 /* awsconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 2C4AEDA5318744548B683E32 /* awsconfiguration.json */; };
 		4405A7BA31AD456D6E1D5B7B /* Pods_IMSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F041670237B6FD6B3A89FFF4 /* Pods_IMSTests.framework */; };
 		8322E07425D6414C00B4D11F /* IMSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8322E07325D6414C00B4D11F /* IMSApp.swift */; };
 		8322E07625D6414C00B4D11F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8322E07525D6414C00B4D11F /* ContentView.swift */; };
@@ -24,6 +25,7 @@
 		83CD9E0825D89044000DFF62 /* GoodDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CD9E0725D89044000DFF62 /* GoodDetail.swift */; };
 		83CD9E0D25D89737000DFF62 /* AddGood.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CD9E0C25D89737000DFF62 /* AddGood.swift */; };
 		83F6AA6325D7A09900CE6217 /* Goods.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 83F6AA6125D7A09900CE6217 /* Goods.xcdatamodeld */; };
+		A459FF2B2CC14EDA9436B4F5 /* amplifyconfiguration.json in Resources */ = {isa = PBXBuildFile; fileRef = 0B4C6605DA524651A9811ED1 /* amplifyconfiguration.json */; };
 		C4A6110CB5DA7193DEF9FBF0 /* Pods_IMS_IMSUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD4B4D9923E0A0DDE7020316 /* Pods_IMS_IMSUITests.framework */; };
 		E3B01E4189A6DED182F45041 /* Pods_IMS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B445D1924D9A7A3CC9D90AA1 /* Pods_IMS.framework */; };
 /* End PBXBuildFile section */
@@ -46,7 +48,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		057F34A506144DEEA210984D /* amplifytools.xcconfig */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text.xcconfig; name = amplifytools.xcconfig; path = amplifytools.xcconfig; sourceTree = "<group>"; };
+		0B4C6605DA524651A9811ED1 /* amplifyconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = amplifyconfiguration.json; path = amplifyconfiguration.json; sourceTree = "<group>"; };
 		0C2A8583940005AF5C05EB66 /* Pods-IMS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IMS.release.xcconfig"; path = "Target Support Files/Pods-IMS/Pods-IMS.release.xcconfig"; sourceTree = "<group>"; };
+		2C4AEDA5318744548B683E32 /* awsconfiguration.json */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = awsconfiguration.json; path = awsconfiguration.json; sourceTree = "<group>"; };
 		323276A094B4B37B0FE71434 /* Pods-IMS-IMSUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IMS-IMSUITests.debug.xcconfig"; path = "Target Support Files/Pods-IMS-IMSUITests/Pods-IMS-IMSUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		7CAD43189D2F314B0996BE2A /* Pods-IMSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IMSTests.release.xcconfig"; path = "Target Support Files/Pods-IMSTests/Pods-IMSTests.release.xcconfig"; sourceTree = "<group>"; };
 		8322E07025D6414C00B4D11F /* IMS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IMS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,6 +78,7 @@
 		A36A93068B2AB28DAED8D83D /* Pods-IMS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IMS.debug.xcconfig"; path = "Target Support Files/Pods-IMS/Pods-IMS.debug.xcconfig"; sourceTree = "<group>"; };
 		AD4B4D9923E0A0DDE7020316 /* Pods_IMS_IMSUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IMS_IMSUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B445D1924D9A7A3CC9D90AA1 /* Pods_IMS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IMS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B75A1043D59C4D88ADFDB73A /* schema.graphql */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text; name = schema.graphql; path = amplify/backend/api/amplifyDatasource/schema.graphql; sourceTree = "<group>"; };
 		CBBFD771E53FB9552294EED0 /* Pods-IMS-IMSUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IMS-IMSUITests.release.xcconfig"; path = "Target Support Files/Pods-IMS-IMSUITests/Pods-IMS-IMSUITests.release.xcconfig"; sourceTree = "<group>"; };
 		E93F04471EACDDDB9D3EA4E2 /* Pods-IMSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IMSTests.debug.xcconfig"; path = "Target Support Files/Pods-IMSTests/Pods-IMSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F041670237B6FD6B3A89FFF4 /* Pods_IMSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IMSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +130,7 @@
 		8322E06725D6414C00B4D11F = {
 			isa = PBXGroup;
 			children = (
+				AC21506211E04E02A67DE08C /* AmplifyConfig */,
 				8322E07225D6414C00B4D11F /* IMS */,
 				8322E08425D6414D00B4D11F /* IMSTests */,
 				8322E08F25D6414D00B4D11F /* IMSUITests */,
@@ -222,6 +229,18 @@
 			path = helper;
 			sourceTree = "<group>";
 		};
+		AC21506211E04E02A67DE08C /* AmplifyConfig */ = {
+			isa = PBXGroup;
+			children = (
+				057F34A506144DEEA210984D /* amplifytools.xcconfig */,
+				0B4C6605DA524651A9811ED1 /* amplifyconfiguration.json */,
+				2C4AEDA5318744548B683E32 /* awsconfiguration.json */,
+				B75A1043D59C4D88ADFDB73A /* schema.graphql */,
+			);
+			name = AmplifyConfig;
+			path = .;
+			sourceTree = "<group>";
+		};
 		DD786C7D9C9D02B451AB865C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,6 +262,7 @@
 				8322E06C25D6414C00B4D11F /* Sources */,
 				8322E06D25D6414C00B4D11F /* Frameworks */,
 				8322E06E25D6414C00B4D11F /* Resources */,
+				CFFCD5FE9C5245720B34C74D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -264,7 +284,6 @@
 				8322E07D25D6414D00B4D11F /* Sources */,
 				8322E07E25D6414D00B4D11F /* Frameworks */,
 				8322E07F25D6414D00B4D11F /* Resources */,
-				7B0391DDB39A6238DC6A394D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -284,6 +303,7 @@
 				8322E08825D6414D00B4D11F /* Sources */,
 				8322E08925D6414D00B4D11F /* Frameworks */,
 				8322E08A25D6414D00B4D11F /* Resources */,
+				2859E588FB8D210D6E4C2D4C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -348,6 +368,8 @@
 				8322E07B25D6414D00B4D11F /* Preview Assets.xcassets in Resources */,
 				8322E07825D6414D00B4D11F /* Assets.xcassets in Resources */,
 				8322E0BC25D6693400B4D11F /* goodsData.json in Resources */,
+				A459FF2B2CC14EDA9436B4F5 /* amplifyconfiguration.json in Resources */,
+				1A31EA0CB12F4C4A8975B788 /* awsconfiguration.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,21 +390,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7B0391DDB39A6238DC6A394D /* [CP] Embed Pods Frameworks */ = {
+		2859E588FB8D210D6E4C2D4C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IMSTests/Pods-IMSTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-IMS-IMSUITests/Pods-IMS-IMSUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-IMSTests/Pods-IMSTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-IMS-IMSUITests/Pods-IMS-IMSUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IMSTests/Pods-IMSTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IMS-IMSUITests/Pods-IMS-IMSUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B6505A0D1E7DB087A11CD805 /* [CP] Check Pods Manifest.lock */ = {
@@ -427,6 +449,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CFFCD5FE9C5245720B34C74D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IMS/Pods-IMS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-IMS/Pods-IMS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-IMS/Pods-IMS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F3E1EDBBBC4C708DCB1CEC3A /* [CP] Check Pods Manifest.lock */ = {
