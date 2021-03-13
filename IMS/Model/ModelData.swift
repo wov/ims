@@ -7,8 +7,11 @@
 
 import Foundation
 import Combine
+import CloudKit
+
 
 final class ModelData: ObservableObject{
+    let record = CKRecord(recordType: "goods")
    @Published var goods : [Good] = load("goodsData.json")
     
     var categories: [String: [Good]] {

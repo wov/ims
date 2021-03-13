@@ -7,6 +7,37 @@
 
 import SwiftUI
 import CodeScanner
+import CloudKit
+
+//import AVFoundation
+//import UIKit
+
+
+struct CaptureImageView {
+    /// TODO 2: Implement other things later
+    @Binding var isShown: Bool
+    @Binding var image: Image?
+    
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(isShown: $isShown, image: $image)}
+    
+}
+
+
+
+extension CaptureImageView: UIViewControllerRepresentable {
+    func makeUIViewController(context: UIViewControllerRepresentableContext<CaptureImageView>) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.delegate = context.coordinator
+        return picker
+    }
+    
+    func updateUIViewController(_ uiViewController: UIImagePickerController,
+                                context: UIViewControllerRepresentableContext<CaptureImageView>) {
+        
+    }
+}
+
 
 struct AddGood: View {
     
@@ -16,6 +47,8 @@ struct AddGood: View {
     @State private var showingAlert = false
     @State private var isShowingScanner = false
     
+    @State var image: Image? = nil
+    @State var showCaptureImageView: Bool = false
     
     var body: some View {
         NavigationView{
@@ -29,13 +62,36 @@ struct AddGood: View {
                     }.sheet(isPresented: $isShowingScanner, content: {
                         CodeScannerView(codeTypes: [.ean8,.ean13,.upce], completion: self.handleScan)
                     })
-                        
+                    
                 }
                 TextField("商品名称",text:$newGood.name)
+                
+                VStack {
+                    HStack{
+                        Text("商品图片")
+                        Spacer()
+                        Button(action: {
+                            self.showCaptureImageView.toggle()
+                        }) {
+                            Image(systemName: "camera.viewfinder")
+                        }
+                    }
+                    
+                    image?.resizable()
+                        .frame(width: 250, height: 250)
+                        .shadow(radius: 10)
+                    
+                }.sheet(isPresented: $showCaptureImageView, content: {
+                    CaptureImageView(isShown: $showCaptureImageView, image: $image)
+                    
+                })
+                
                 TextField("产品图片",text:$newGood.src)
+                
                 TextField("商品进价",text:$newGood.price)
                 HStack {
                     Text("初始库存")
+                    Spacer()
                     TextField("库存", text: Binding(
                         get: {String(self.newGood.stock)},
                         set: {v in self.newGood.stock = Float(v) ?? 0}
@@ -49,7 +105,7 @@ struct AddGood: View {
                     TextEditor(text: $newGood.description)
                         .frame(height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
                 }
-                    
+                
                 
             }.navigationBarTitle("添加商品")
             .navigationBarItems(trailing:
@@ -68,26 +124,38 @@ struct AddGood: View {
         switch result {
         case .success(let code):
             self.newGood.barCode = code
-//            let details = code.components(separatedBy: "\n")
-//            guard details.count == 2 else { return }
-//
-//            let person = Prospect()
-//            person.name = details[0]
-//            person.emailAddress = details[1]
-//
-//            self.prospects.people.append(person)
         case .failure:
             print("Scanning failed")
         }
     }
     
     func save(good: Good){
-        modelData.goods.append(good)
+        let record = CKRecord(recordType: "goods")
+        
+        record.setValuesForKeys([
+            "name": self.newGood.name
+        ])
+        
+        let container = CKContainer.default()
+        let database = container.privateCloudDatabase
+        
+        database.save(record) { record, error in
+            if let error = error {
+                // Handle error.
+                print(error)
+                return
+            }
+        }
+        
     }
+    
+    
+    
+    
 }
 
 struct AddGoodDetail_Previews: PreviewProvider {
-//    static let modelData = ModelData()
+    //    static let modelData = ModelData()
     static var previews: some View {
         AddGood()
     }
