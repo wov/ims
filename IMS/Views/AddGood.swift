@@ -8,27 +8,22 @@
 import SwiftUI
 import CodeScanner
 import CloudKit
-
-//import AVFoundation
-//import UIKit
-
+import PhotosUI
 
 struct CaptureImageView {
-    /// TODO 2: Implement other things later
     @Binding var isShown: Bool
     @Binding var image: Image?
-    
+    @Binding var file: CKAsset?
     func makeCoordinator() -> Coordinator {
-        return Coordinator(isShown: $isShown, image: $image)}
-    
+        return Coordinator(isShown: $isShown, image: $image , file: $file)
+    }
 }
-
-
 
 extension CaptureImageView: UIViewControllerRepresentable {
     func makeUIViewController(context: UIViewControllerRepresentableContext<CaptureImageView>) -> UIImagePickerController {
         let picker = UIImagePickerController()
         picker.delegate = context.coordinator
+        picker.sourceType = .camera
         return picker
     }
     
@@ -42,13 +37,15 @@ extension CaptureImageView: UIViewControllerRepresentable {
 struct AddGood: View {
     
     @EnvironmentObject var modelData: ModelData
-    @State private var newGood = Good(id: 100100, name: "", description: "", unit: "", supplier: "", stock: 0.0, ots: false, src: "", price: "", barCode: "",category: .package)
+    @State private var newGood = Good(id: 100100, name: "", description: "", unit: "", supplier: "", stock: 0.0, ots: false, price: "", barCode: "",category: .package)
     
     @State private var showingAlert = false
     @State private var isShowingScanner = false
     
     @State var image: Image? = nil
     @State var showCaptureImageView: Bool = false
+    @State var uiimage: UIImage? = nil
+    @State var file: CKAsset? = nil
     
     var body: some View {
         NavigationView{
@@ -64,6 +61,7 @@ struct AddGood: View {
                     })
                     
                 }
+                
                 TextField("商品名称",text:$newGood.name)
                 
                 VStack {
@@ -82,13 +80,12 @@ struct AddGood: View {
                         .shadow(radius: 10)
                     
                 }.sheet(isPresented: $showCaptureImageView, content: {
-                    CaptureImageView(isShown: $showCaptureImageView, image: $image)
-                    
+                    CaptureImageView(isShown: $showCaptureImageView, image: $image,file: $file)
                 })
                 
-                TextField("产品图片",text:$newGood.src)
                 
-                TextField("商品进价",text:$newGood.price)
+                TextField("商品进价",text:$newGood.price).keyboardType(.numbersAndPunctuation)
+                
                 HStack {
                     Text("初始库存")
                     Spacer()
@@ -96,7 +93,7 @@ struct AddGood: View {
                         get: {String(self.newGood.stock)},
                         set: {v in self.newGood.stock = Float(v) ?? 0}
                     ))
-                    .keyboardType(/*@START_MENU_TOKEN@*/.numbersAndPunctuation/*@END_MENU_TOKEN@*/)
+                    .keyboardType(.numbersAndPunctuation)
                 }
                 TextField("商品单位",text:$newGood.unit)
                 
@@ -131,10 +128,12 @@ struct AddGood: View {
     
     func save(good: Good){
         let record = CKRecord(recordType: "goods")
-        
+                
         record.setValuesForKeys([
             "name": self.newGood.name
         ])
+        
+        record.setObject(self.file, forKey: "photo")
         
         let container = CKContainer.default()
         let database = container.privateCloudDatabase
@@ -146,12 +145,13 @@ struct AddGood: View {
                 return
             }
         }
-        
     }
     
-    
-    
-    
+    func getDocumentsDirectory() -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+        
 }
 
 struct AddGoodDetail_Previews: PreviewProvider {

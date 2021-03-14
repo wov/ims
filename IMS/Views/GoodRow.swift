@@ -11,15 +11,12 @@ struct GoodRow:View {
     
     let url = URL(string: "https://image.tmdb.org/t/p/original/pThyQovXQrw2m0s9x82twj48Jq4.jpg")!
     
-    
     var body: some View{
-        
-        
         HStack {
-            AsyncImage(url: URL(string: good.src)!,
-                       placeholder: { Text("Loading ...") },
-                       image: { Image(uiImage: $0).resizable() })
-                .frame(width: 60, height: 60)
+//            AsyncImage(url: URL(string: good.src)!,
+//                       placeholder: { Text("Loading ...") },
+//                       image: { Image(uiImage: $0).resizable() })
+//                .frame(width: 60, height: 60)
             
             VStack{
                 HStack {

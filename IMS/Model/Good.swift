@@ -7,20 +7,19 @@
 
 import Foundation
 import SwiftUI
-
+//import PhotosUI
 
 struct Good:Hashable,Codable,Identifiable {
     var id: Int
     var name: String
     var description: String
-//    var category: String
     var unit: String
     var supplier: String
     var stock: Float
     var ots: Bool //是否缺货
-    var src: String
     var price: String
     var barCode: String //条码
+//    var photo: PHAsset
     
     var category: Category
     
