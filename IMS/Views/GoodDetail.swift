@@ -29,7 +29,7 @@ struct GoodDetail: View {
                     Text("库存信息")
                         .font(.title2)
                     Spacer()
-                    Text("剩余库存\(String(format: "%.2f", good.stock))\(good.unit)")
+                    Text("剩余库存\(String(format: "%.2f", good.stock!))\(good.unit)")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                 }

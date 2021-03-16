@@ -15,18 +15,16 @@ struct Good:Hashable,Codable,Identifiable {
     var description: String
     var unit: String
     var supplier: String
-    var stock: Float
+    var stock: Float?
     var ots: Bool //是否缺货
-    var price: String
-    var barCode: String //条码
-//    var photo: PHAsset
+    var barCode: String //条码    
+    var category: String //分类
+    var location: String //库位
     
-    var category: Category
-    
-    enum Category:String,CaseIterable,Codable {
-        case package = "包装"
-        case block = "颗粒"
-    }
+//    enum Category:String,CaseIterable,Codable {
+//        case package = "包装"
+//        case block = "颗粒"
+//    }
 
     
 //    private var imageName: String

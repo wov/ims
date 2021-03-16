@@ -37,7 +37,7 @@ extension CaptureImageView: UIViewControllerRepresentable {
 struct AddGood: View {
     
     @EnvironmentObject var modelData: ModelData
-    @State private var newGood = Good(id: 100100, name: "", description: "", unit: "", supplier: "", stock: 0.0, ots: false, price: "", barCode: "",category: .package)
+    @State private var newGood = Good( id: 10000,name: "", description: "", unit: "", supplier: "", stock:nil , ots: false, barCode: "",category: "",location:"")
     
     @State private var showingAlert = false
     @State private var isShowingScanner = false
@@ -46,6 +46,9 @@ struct AddGood: View {
     @State var showCaptureImageView: Bool = false
     @State var uiimage: UIImage? = nil
     @State var file: CKAsset? = nil
+    
+    @State private var showSuccessStoreAlert = false
+
     
     var body: some View {
         NavigationView{
@@ -59,11 +62,10 @@ struct AddGood: View {
                     }.sheet(isPresented: $isShowingScanner, content: {
                         CodeScannerView(codeTypes: [.ean8,.ean13,.upce], completion: self.handleScan)
                     })
-                    
                 }
                 
                 TextField("商品名称",text:$newGood.name)
-                
+            
                 VStack {
                     HStack{
                         Text("商品图片")
@@ -82,29 +84,16 @@ struct AddGood: View {
                 }.sheet(isPresented: $showCaptureImageView, content: {
                     CaptureImageView(isShown: $showCaptureImageView, image: $image,file: $file)
                 })
-                
-                
-                TextField("商品进价",text:$newGood.price).keyboardType(.numbersAndPunctuation)
-                
-                HStack {
-                    Text("初始库存")
-                    Spacer()
-                    TextField("库存", text: Binding(
-                        get: {String(self.newGood.stock)},
-                        set: {v in self.newGood.stock = Float(v) ?? 0}
-                    ))
-                    .keyboardType(.numbersAndPunctuation)
-                }
+//                TextField("商品进价",value:$newGood.cost, formatter: NumberFormatter())
+//                    .keyboardType(.numbersAndPunctuation)
+//                TextField("初始库存", value: $newGood.stock , formatter: NumberFormatter())
+//                    .keyboardType(.numbersAndPunctuation)
                 TextField("商品单位",text:$newGood.unit)
-                
-                HStack(alignment: .top) {
-                    Text("添加描述")
-                    TextEditor(text: $newGood.description)
-                        .frame(height: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
-                }
-                
-                
-            }.navigationBarTitle("添加商品")
+                TextField("产品分类",text:$newGood.category)
+                TextField("库位",text:$newGood.location)
+//                TextField("供应商",text:$newGood.supplier)
+                TextField("商品描述",text:$newGood.description)
+            }.navigationBarTitle("添加新商品")
             .navigationBarItems(trailing:
                                     Button(action: {
                                         self.save(good: newGood)
@@ -112,6 +101,8 @@ struct AddGood: View {
                                         Text("保存")
                                     })
             )
+        }.alert(isPresented: $showSuccessStoreAlert) {
+            Alert(title: Text("保存成功"), message: Text("well done!"))
         }
     }
     
@@ -128,9 +119,14 @@ struct AddGood: View {
     
     func save(good: Good){
         let record = CKRecord(recordType: "goods")
-                
+        
         record.setValuesForKeys([
-            "name": self.newGood.name
+            "barcode": good.barCode,
+            "name": good.name,
+            "unit": good.unit,
+            "category": good.category,
+            "location": good.location,
+            "description": good.description
         ])
         
         record.setObject(self.file, forKey: "photo")
@@ -144,6 +140,11 @@ struct AddGood: View {
                 print(error)
                 return
             }
+            
+            self.showSuccessStoreAlert = true
+            
+            self.newGood = Good( id: 10000,name: "", description: "", unit: "", supplier: "", stock:nil , ots: false, barCode: "",category: "",location:"")
+            
         }
     }
     
@@ -151,7 +152,7 @@ struct AddGood: View {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
     }
-        
+    
 }
 
 struct AddGoodDetail_Previews: PreviewProvider {

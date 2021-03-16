@@ -7,17 +7,17 @@
 
 import Foundation
 import Combine
-import CloudKit
+//import CloudKit
 
 
 final class ModelData: ObservableObject{
-    let record = CKRecord(recordType: "goods")
+//    let record = CKRecord(recordType: "goods")
    @Published var goods : [Good] = load("goodsData.json")
     
     var categories: [String: [Good]] {
         Dictionary(
             grouping: goods,
-            by: { $0.category.rawValue }
+            by: { $0.category }
         )
     }
 
