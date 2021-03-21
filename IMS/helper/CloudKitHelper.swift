@@ -29,15 +29,14 @@ struct CloudKitHelper {
     // MARK: - saving to CloudKit
     static func save(good: Good, completion: @escaping (Result<Good, Error>) -> ()) {
         let goodRecord = CKRecord(recordType: RecordType.Goods)
-        goodRecord["barCode"] = good.barCode as CKRecordValue
+//        goodRecord["barCode"] = good.barCode as CKRecordValue
         goodRecord["category"] = good.category as CKRecordValue
         goodRecord["location"] = good.location as CKRecordValue
         goodRecord["name"] = good.name as CKRecordValue
         goodRecord["unit"] = good.unit as CKRecordValue
         goodRecord["description"] = good.description as CKRecordValue
-        
-        
-    
+//        goodRecord["id"] = good.id as CKRecordValue
+
     
         CKContainer.default().privateCloudDatabase.save(goodRecord) { (record, err) in
             DispatchQueue.main.async {
@@ -53,16 +52,13 @@ struct CloudKitHelper {
                 guard let name = record["name"] as? String ,
                     let description = record["description"] as? String ,
                     let unit = record["unit"] as? String ,
-                    let supplier = record["supplier"] as? String ,
-                    let ots = record["ots"] as? Bool ,
-                    let barCode = record["barCode"] as? String ,
                     let category = record["category"] as? String ,
                     let location = record["location"] as? String
                       else {
                     completion(.failure(CloudKitHelperError.castFailure))
                     return
                 }
-                let good = Good(recordID: recordID,name: name, description: description, unit: unit, supplier: supplier, ots: ots, barCode: barCode, category: category, location: location)
+                let good = Good(recordID: recordID,name: name, description: description, unit: unit,  category: category, location: location)
                 completion(.success(good))
             }
         }
@@ -76,29 +72,23 @@ struct CloudKitHelper {
 //        query.sortDescriptors = [sort]
 
         let operation = CKQueryOperation(query: query)
-        operation.desiredKeys = ["name","category","location","unit"]
+        operation.desiredKeys = ["name","category","location","unit","description"]
         operation.resultsLimit = 50
         
         operation.recordFetchedBlock = { record in
-            print(record)
-            
-            
             DispatchQueue.main.async {
                 let recordID = record.recordID
                 
                 guard let name = record["name"] as? String ,
-//                    let description = record["description"] as? String ,
+                    let description = record["description"] as? String ,
                     let unit = record["unit"] as? String ,
-//                    let supplier = record["supplier"] as? String ,
-//                    let ots = record["ots"] as? Bool ,
-//                    let barCode = record["barCode"] as? String ,
                     let category = record["category"] as? String ,
                     let location = record["location"] as? String
                       else {
                     return
                 }
 
-                let good = Good(recordID: recordID,name: name, description: "", unit: unit, supplier: "", ots: false, barCode: "", category: category, location: location)
+                let good = Good(recordID: recordID,name: name, description: description, unit: unit,  category: category, location: location)
                 completion(.success(good))
             }
         }
@@ -109,11 +99,6 @@ struct CloudKitHelper {
                     completion(.failure(err))
                     return
                 }
-//                guard let cursor = cursor else {
-//                    completion(.failure(CloudKitHelperError.cursorFailure))
-//                    return
-//                }
-//                print("Cursor: \(String(describing: cursor))")
             }
             
         }
@@ -170,16 +155,13 @@ struct CloudKitHelper {
                     guard let name = record["name"] as? String ,
                         let description = record["description"] as? String ,
                         let unit = record["unit"] as? String ,
-                        let supplier = record["supplier"] as? String ,
-                        let ots = record["ots"] as? Bool ,
-                        let barCode = record["barCode"] as? String ,
                         let category = record["category"] as? String ,
                         let location = record["location"] as? String
                           else {
                         completion(.failure(CloudKitHelperError.castFailure))
                         return
                     }
-                    let good = Good(recordID: recordID,name: name, description: description, unit: unit, supplier: supplier, ots: ots, barCode: barCode, category: category, location: location)
+                    let good = Good(recordID: recordID,name: name, description: description, unit: unit,  category: category, location: location)
                     completion(.success(good))
                 }
             }

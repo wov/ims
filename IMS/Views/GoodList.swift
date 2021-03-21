@@ -14,13 +14,12 @@ struct GoodList : View {
     @State var currentGood: Good?
     
     
-    var filteredGoods: [Good]{
-        modelData.goods.filter{ good in
-            (!showOTSOnly || good.ots)
-        }
-    }
-    
-    
+//    var filteredGoods: [Good]{
+//        modelData.goods.filter{ good in
+//            (!showOTSOnly || good.ots)
+//        }
+//    }
+//
     var body: some View{
         NavigationView{
             List{
@@ -30,9 +29,6 @@ struct GoodList : View {
                             NavigationLink(
                                 destination: GoodDetail(good: good)){
                                 GoodRow(good: good)
-                                //                                .onTapGesture {
-                                //                                    currentGood = good
-                                //                                }
                             }
                         }
                     }
@@ -44,7 +40,6 @@ struct GoodList : View {
                 switch result{
                 case .success(let newGood):
                     self.modelData.goods.append(newGood)
-//                    self.modelData.goods.append(newGood)
                 case .failure(let err):
                     print(err.localizedDescription)
                 }

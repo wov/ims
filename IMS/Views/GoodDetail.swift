@@ -14,7 +14,7 @@ struct GoodDetail: View {
     @State private var stock: String = ""
     
     var goodIndex: Int {
-        modelData.goods.firstIndex(where: {$0.id == good.id})!
+        modelData.goods.firstIndex(where: {$0.recordID == good.recordID})!
     }
     
     var body: some View {

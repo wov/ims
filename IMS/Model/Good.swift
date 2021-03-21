@@ -16,10 +16,10 @@ struct Good:Identifiable{
     var name: String
     var description: String
     var unit: String
-    var supplier: String
+//    var supplier: String
     var stock: Float?
-    var ots: Bool //是否缺货
-    var barCode: String //条码    
+//    var ots: Bool //是否缺货
+//    var barCode: String //条码
     var category: String //分类
     var location: String //库位
     

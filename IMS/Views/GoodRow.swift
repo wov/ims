@@ -35,10 +35,10 @@ struct GoodRow:View {
             
             Spacer()
             
-            if good.ots{
-                Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundColor(.red)
-            }
+//            if good.ots{
+//                Image(systemName: "exclamationmark.triangle.fill")
+//                    .foregroundColor(.red)
+//            }
         }
         
         

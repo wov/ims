@@ -37,7 +37,7 @@ extension CaptureImageView: UIViewControllerRepresentable {
 struct AddGood: View {
     
     @EnvironmentObject var modelData: ModelData
-    @State private var newGood = Good( name: "", description: "", unit: "", supplier: "", stock:nil , ots: false, barCode: "",category: "",location:"")
+    @State private var newGood = Good( name: "", description: "", unit: "",  stock:nil , category: "",location:"")
     
     @State private var showingAlert = false
     @State private var isShowingScanner = false
@@ -53,17 +53,17 @@ struct AddGood: View {
     var body: some View {
         NavigationView{
             Form{
-                HStack {
-                    TextField("商品条码",text:$newGood.barCode)
-                    Button(action: {
-                        self.isShowingScanner = true
-                    }) {
-                        Image(systemName: "barcode.viewfinder")
-                    }.sheet(isPresented: $isShowingScanner, content: {
-                        CodeScannerView(codeTypes: [.ean8,.ean13,.upce], completion: self.handleScan)
-                    })
-                }
-                
+                //                HStack {
+                //                    TextField("商品条码",text:$newGood.barCode)
+                //                    Button(action: {
+                //                        self.isShowingScanner = true
+                //                    }) {
+                //                        Image(systemName: "barcode.viewfinder")
+                //                    }.sheet(isPresented: $isShowingScanner, content: {
+                //                        CodeScannerView(codeTypes: [.ean8,.ean13,.upce], completion: self.handleScan)
+                //                    })
+                //                }
+                //
                 TextField("商品名称",text:$newGood.name)
                 
                 VStack {
@@ -105,8 +105,8 @@ struct AddGood: View {
                                             }
                                         }
                                         
-                                        self.newGood = Good( name: "", description: "", unit: "", supplier: "", stock:nil , ots: false, barCode: "",category: "",location:"")
-
+                                        self.newGood = Good( name: "", description: "", unit: "", stock:nil ,category: "",location:"")
+                                        
                                     }, label: {
                                         Text("保存")
                                     })
@@ -116,16 +116,16 @@ struct AddGood: View {
         }
     }
     
-    func handleScan(result: Result<String,CodeScannerView.ScanError>){
-        self.isShowingScanner = false
-        
-        switch result {
-        case .success(let code):
-            self.newGood.barCode = code
-        case .failure:
-            print("Scanning failed")
-        }
-    }
+//    func handleScan(result: Result<String,CodeScannerView.ScanError>){
+//        self.isShowingScanner = false
+//        
+//        switch result {
+//        case .success(let code):
+//            self.newGood.barCode = code
+//        case .failure:
+//            print("Scanning failed")
+//        }
+//    }
     //
     //    func save(good: Good){
     //        let record = CKRecord(recordType: "goods")
