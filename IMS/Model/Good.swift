@@ -5,12 +5,14 @@
 //  Created by wov on 2021/2/12.
 //
 
-import Foundation
+//import Foundation
 import SwiftUI
-//import PhotosUI
+import CloudKit
 
-struct Good:Hashable,Codable,Identifiable {
-    var id: Int
+
+struct Good:Identifiable{
+    var id = UUID()
+    var recordID: CKRecord.ID?
     var name: String
     var description: String
     var unit: String

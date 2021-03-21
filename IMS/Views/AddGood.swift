@@ -37,7 +37,7 @@ extension CaptureImageView: UIViewControllerRepresentable {
 struct AddGood: View {
     
     @EnvironmentObject var modelData: ModelData
-    @State private var newGood = Good( id: 10000,name: "", description: "", unit: "", supplier: "", stock:nil , ots: false, barCode: "",category: "",location:"")
+    @State private var newGood = Good( name: "", description: "", unit: "", supplier: "", stock:nil , ots: false, barCode: "",category: "",location:"")
     
     @State private var showingAlert = false
     @State private var isShowingScanner = false
@@ -48,7 +48,7 @@ struct AddGood: View {
     @State var file: CKAsset? = nil
     
     @State private var showSuccessStoreAlert = false
-
+    
     
     var body: some View {
         NavigationView{
@@ -65,7 +65,7 @@ struct AddGood: View {
                 }
                 
                 TextField("商品名称",text:$newGood.name)
-            
+                
                 VStack {
                     HStack{
                         Text("商品图片")
@@ -84,19 +84,29 @@ struct AddGood: View {
                 }.sheet(isPresented: $showCaptureImageView, content: {
                     CaptureImageView(isShown: $showCaptureImageView, image: $image,file: $file)
                 })
-//                TextField("商品进价",value:$newGood.cost, formatter: NumberFormatter())
-//                    .keyboardType(.numbersAndPunctuation)
-//                TextField("初始库存", value: $newGood.stock , formatter: NumberFormatter())
-//                    .keyboardType(.numbersAndPunctuation)
+                //                TextField("商品进价",value:$newGood.cost, formatter: NumberFormatter())
+                //                    .keyboardType(.numbersAndPunctuation)
+                //                TextField("初始库存", value: $newGood.stock , formatter: NumberFormatter())
+                //                    .keyboardType(.numbersAndPunctuation)
                 TextField("商品单位",text:$newGood.unit)
                 TextField("产品分类",text:$newGood.category)
                 TextField("库位",text:$newGood.location)
-//                TextField("供应商",text:$newGood.supplier)
+                //                TextField("供应商",text:$newGood.supplier)
                 TextField("商品描述",text:$newGood.description)
             }.navigationBarTitle("添加新商品")
             .navigationBarItems(trailing:
                                     Button(action: {
-                                        self.save(good: newGood)
+                                        CloudKitHelper.save(good:newGood){ result in
+                                            switch result {
+                                            case .success:
+                                                self.showSuccessStoreAlert = true
+                                            case .failure:
+                                                print("fail")
+                                            }
+                                        }
+                                        
+                                        self.newGood = Good( name: "", description: "", unit: "", supplier: "", stock:nil , ots: false, barCode: "",category: "",location:"")
+
                                     }, label: {
                                         Text("保存")
                                     })
@@ -116,38 +126,38 @@ struct AddGood: View {
             print("Scanning failed")
         }
     }
-    
-    func save(good: Good){
-        let record = CKRecord(recordType: "goods")
-        
-        record.setValuesForKeys([
-            "barcode": good.barCode,
-            "name": good.name,
-            "unit": good.unit,
-            "category": good.category,
-            "location": good.location,
-            "description": good.description
-        ])
-        
-        record.setObject(self.file, forKey: "photo")
-        
-        let container = CKContainer.default()
-        let database = container.privateCloudDatabase
-        
-        database.save(record) { record, error in
-            if let error = error {
-                // Handle error.
-                print(error)
-                return
-            }
-            
-            self.showSuccessStoreAlert = true
-            
-            self.newGood = Good( id: 10000,name: "", description: "", unit: "", supplier: "", stock:nil , ots: false, barCode: "",category: "",location:"")
-            
-        }
-    }
-    
+    //
+    //    func save(good: Good){
+    //        let record = CKRecord(recordType: "goods")
+    //
+    //        record.setValuesForKeys([
+    //            "barcode": good.barCode,
+    //            "name": good.name,
+    //            "unit": good.unit,
+    //            "category": good.category,
+    //            "location": good.location,
+    //            "description": good.description
+    //        ])
+    //
+    //        record.setObject(self.file, forKey: "photo")
+    //
+    //        let container = CKContainer.default()
+    //        let database = container.privateCloudDatabase
+    //
+    //        database.save(record) { record, error in
+    //            if let error = error {
+    //                // Handle error.
+    //                print(error)
+    //                return
+    //            }
+    //
+    //            self.showSuccessStoreAlert = true
+    //
+    //            self.newGood = Good( name: "", description: "", unit: "", supplier: "", stock:nil , ots: false, barCode: "",category: "",location:"")
+    //
+    //        }
+    //    }
+    //
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]

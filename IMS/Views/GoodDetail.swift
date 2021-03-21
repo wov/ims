@@ -25,14 +25,14 @@ struct GoodDetail: View {
 //                           image: { Image(uiImage: $0).resizable() })
 //                    .frame(width: 100, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
 //
-                HStack {
-                    Text("库存信息")
-                        .font(.title2)
-                    Spacer()
-                    Text("剩余库存\(String(format: "%.2f", good.stock!))\(good.unit)")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
+//                HStack {
+//                    Text("库存信息")
+//                        .font(.title2)
+//                    Spacer()
+//                    Text("剩余库存\(String(format: "%.2f", good.stock!))\(good.unit)")
+//                        .font(.subheadline)
+//                        .foregroundColor(.secondary)
+//                }
 //                .font(.subheadline)
 //                .foregroundColor(.secondary)
                 

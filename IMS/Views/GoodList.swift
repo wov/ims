@@ -39,44 +39,16 @@ struct GoodList : View {
                 }
             }
             .navigationTitle("商品列表")
-            //            .actionSheet(item: $currentGood){ good in
-            //                ActionSheet(title: Text("\(good.name)"),buttons: [
-            //                    .default(Text("添加库存"),action:{
-            //                        self.showAlert = true
-            //                    }),
-            //                    .default(Text("减少库存")),
-            //                    .destructive(Text("删除商品")
-            //                    ),
-            //                    .cancel(Text("取消"))
-            //                ])
-            //            }.alert(isPresented: $showAlert){
-            //                Alert(
-            //                    title : Text("ok"),
-            //                    message : Text("message")
-            //                )
-            //
-            //            }
-            
-            
-            //            .navigationSubTitle("测试")
-            //            .toolbar{ EditButton() }
-            
-            
-            
-            //            List{
-            //                Toggle(isOn: $showOTSOnly) {
-            //                    Text("只显示库存预警商品")
-            //                }
-            //                Section(header:Text("打包用品")){
-            //                    ForEach(filteredGoods){ good in
-            //                        NavigationLink(
-            //                            destination: GoodDetail()){
-            //                            GoodRow(good: good)
-            //                        }
-            //                    }
-            //                }
-            //            }
-            //            .navigationTitle("我的商品")
+        }.onAppear {
+            CloudKitHelper.fetch{ result in
+                switch result{
+                case .success(let newGood):
+                    self.modelData.goods.append(newGood)
+//                    self.modelData.goods.append(newGood)
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
+            }
         }
     }
 }
