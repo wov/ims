@@ -13,7 +13,19 @@ import CloudKit
 final class ModelData: ObservableObject{
     @Published var goods :[Good] = []
     
-//    self.loadDataFromCloudkit()
+    func fetchData() {
+        CloudKitHelper.fetch{ result in
+            switch result{
+            case .success(let newGood):
+                if !self.goods.contains(where: { $0.recordID == newGood.recordID }) {
+                    self.goods.append(newGood)
+                }
+            case .failure(let err):
+                print(err.localizedDescription)
+            }
+        }
+    }
+    //    self.loadDataFromCloudkit()
     
     var categories: [String: [Good]] {
         Dictionary(
