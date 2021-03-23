@@ -11,6 +11,12 @@ struct GoodRow:View {
         
     var body: some View{
         HStack {
+            Text(good.shelfPosition)
+                .font(.headline)
+                .multilineTextAlignment(.leading)
+                .lineLimit(2)
+                .frame(width: 80.0, height: 80.0)
+                .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.gray/*@END_MENU_TOKEN@*/)
             VStack{
                 HStack {
                     Text(good.name)

@@ -23,7 +23,7 @@ struct GoodList : View {
         NavigationView{
             List{
                 ForEach(modelData.shelfs.keys.sorted(), id: \.self) { key in
-                    Section(header: Text(key)){
+                    Section(header: Text("货架：\(key)")){
                         ForEach(modelData.shelfs[key] ?? []){ good in
                             NavigationLink(
                                 destination: GoodDetail(good: good)){
