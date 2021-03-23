@@ -16,22 +16,8 @@ struct Good:Identifiable{
     var name: String
     var description: String
     var unit: String
-//    var supplier: String
-    var stock: Float?
-//    var ots: Bool //是否缺货
-//    var barCode: String //条码
+    var stock: Float
     var category: String //分类
-    var location: String //库位
-    
-//    enum Category:String,CaseIterable,Codable {
-//        case package = "包装"
-//        case block = "颗粒"
-//    }
-
-    
-//    private var imageName: String
-//    var image: Image{
-//        Image(imageName)
-//    }
-    
+    var shelfNumber: String //货架号
+    var shelfPosition: String //货架位
 }

@@ -29,15 +29,14 @@ struct CloudKitHelper {
     // MARK: - saving to CloudKit
     static func save(good: Good, completion: @escaping (Result<Good, Error>) -> ()) {
         let goodRecord = CKRecord(recordType: RecordType.Goods)
-//        goodRecord["barCode"] = good.barCode as CKRecordValue
         goodRecord["category"] = good.category as CKRecordValue
-        goodRecord["location"] = good.location as CKRecordValue
         goodRecord["name"] = good.name as CKRecordValue
         goodRecord["unit"] = good.unit as CKRecordValue
         goodRecord["description"] = good.description as CKRecordValue
-//        goodRecord["id"] = good.id as CKRecordValue
-
-    
+        goodRecord["stock"] = good.stock as CKRecordValue
+        goodRecord["shelfNumber"] = good.shelfNumber as CKRecordValue
+        goodRecord["shelfPosition"] = good.shelfPosition as CKRecordValue
+        
         CKContainer.default().privateCloudDatabase.save(goodRecord) { (record, err) in
             DispatchQueue.main.async {
                 if let err = err {
@@ -50,15 +49,18 @@ struct CloudKitHelper {
                 }
                 let recordID = record.recordID
                 guard let name = record["name"] as? String ,
-                    let description = record["description"] as? String ,
-                    let unit = record["unit"] as? String ,
-                    let category = record["category"] as? String ,
-                    let location = record["location"] as? String
-                      else {
+                      let description = record["description"] as? String ,
+                      let unit = record["unit"] as? String ,
+                      let category = record["category"] as? String,
+                      let stock = record["stock"] as? Float,
+                      let shelfNumber = record["shelfNumber"] as? String,
+                      let shelfPosition = record["shelfPosition"] as? String
+                
+                else {
                     completion(.failure(CloudKitHelperError.castFailure))
                     return
                 }
-                let good = Good(recordID: recordID,name: name, description: description, unit: unit,  category: category, location: location)
+                let good = Good(recordID: recordID,name: name, description: description, unit: unit,  stock: stock, category: category, shelfNumber: shelfNumber, shelfPosition: shelfPosition)
                 completion(.success(good))
             }
         }
@@ -67,28 +69,31 @@ struct CloudKitHelper {
     // MARK: - fetching from CloudKit
     static func fetch(completion: @escaping (Result<Good, Error>) -> ()) {
         let pred = NSPredicate(value: true)
-//        let sort = NSSortDescriptor(key: "creationDate", ascending: false)
+        //        let sort = NSSortDescriptor(key: "creationDate", ascending: false)
         let query = CKQuery(recordType: RecordType.Goods, predicate: pred)
-//        query.sortDescriptors = [sort]
-
+        //        query.sortDescriptors = [sort]
+        
         let operation = CKQueryOperation(query: query)
-        operation.desiredKeys = ["name","category","location","unit","description"]
-        operation.resultsLimit = 50
+        operation.desiredKeys = ["name","category","unit","description","shelfNumber","shelfPosition","stock"]
+//        operation.resultsLimit = 50
         
         operation.recordFetchedBlock = { record in
             DispatchQueue.main.async {
                 let recordID = record.recordID
                 
                 guard let name = record["name"] as? String ,
-                    let description = record["description"] as? String ,
-                    let unit = record["unit"] as? String ,
-                    let category = record["category"] as? String ,
-                    let location = record["location"] as? String
-                      else {
+                      let description = record["description"] as? String ,
+                      let unit = record["unit"] as? String ,
+                      let category = record["category"] as? String,
+                      let stock = record["stock"] as? Float,
+                      let shelfNumber = record["shelfNumber"] as? String,
+                      let shelfPosition = record["shelfPosition"] as? String
+                
+                else {
+                    completion(.failure(CloudKitHelperError.castFailure))
                     return
                 }
-
-                let good = Good(recordID: recordID,name: name, description: description, unit: unit,  category: category, location: location)
+                let good = Good(recordID: recordID,name: name, description: description, unit: unit,  stock: stock, category: category, shelfNumber: shelfNumber, shelfPosition: shelfPosition)
                 completion(.success(good))
             }
         }
@@ -139,8 +144,8 @@ struct CloudKitHelper {
                 }
                 return
             }
-//            record["text"] = item.text as CKRecordValue
-//            todo: 增加修改的值
+            //            record["text"] = item.text as CKRecordValue
+            //            todo: 增加修改的值
             CKContainer.default().privateCloudDatabase.save(record) { (record, err) in
                 DispatchQueue.main.async {
                     if let err = err {
@@ -151,17 +156,19 @@ struct CloudKitHelper {
                         completion(.failure(CloudKitHelperError.recordFailure))
                         return
                     }
-                    let recordID = record.recordID
                     guard let name = record["name"] as? String ,
-                        let description = record["description"] as? String ,
-                        let unit = record["unit"] as? String ,
-                        let category = record["category"] as? String ,
-                        let location = record["location"] as? String
-                          else {
+                          let description = record["description"] as? String ,
+                          let unit = record["unit"] as? String ,
+                          let category = record["category"] as? String,
+                          let stock = record["stock"] as? Float,
+                          let shelfNumber = record["shelfNumber"] as? String,
+                          let shelfPosition = record["shelfPosition"] as? String
+                    
+                    else {
                         completion(.failure(CloudKitHelperError.castFailure))
                         return
                     }
-                    let good = Good(recordID: recordID,name: name, description: description, unit: unit,  category: category, location: location)
+                    let good = Good(recordID: recordID,name: name, description: description, unit: unit,  stock: stock, category: category, shelfNumber: shelfNumber, shelfPosition: shelfPosition)
                     completion(.success(good))
                 }
             }

@@ -25,29 +25,15 @@ final class ModelData: ObservableObject{
             }
         }
     }
-    //    self.loadDataFromCloudkit()
-    
-    var categories: [String: [Good]] {
+    var shelfs: [String: [Good]] {
         Dictionary(
             grouping: goods,
-            by: { $0.category }
+            by: { $0.shelfNumber }
         )
     }
     
 }
 
-//func loadDataFromCloudkit()  {
-////    var goods: [Good] = []
-//    CloudKitHelper.fetch{ result in
-//        switch result{
-//        case .success(let newGood):
-//            ModelData().goods.append(newGood)
-//        case .failure(let err):
-//            print(err.localizedDescription)
-//        }
-//    }
-////    return goods
-//}
 
 func load<T:Decodable>(_ filename: String) -> T{
     let data: Data

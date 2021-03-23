@@ -37,7 +37,7 @@ extension CaptureImageView: UIViewControllerRepresentable {
 struct AddGood: View {
     
     @EnvironmentObject var modelData: ModelData
-    @State private var newGood = Good( name: "", description: "", unit: "",  stock:nil , category: "",location:"")
+    @State private var newGood = Good( name: "", description: "", unit: "",  stock: 0 , category: "", shelfNumber:"",shelfPosition:"")
     
     @State private var showingAlert = false
     @State private var isShowingScanner = false
@@ -53,46 +53,18 @@ struct AddGood: View {
     var body: some View {
         NavigationView{
             Form{
-                //                HStack {
-                //                    TextField("商品条码",text:$newGood.barCode)
-                //                    Button(action: {
-                //                        self.isShowingScanner = true
-                //                    }) {
-                //                        Image(systemName: "barcode.viewfinder")
-                //                    }.sheet(isPresented: $isShowingScanner, content: {
-                //                        CodeScannerView(codeTypes: [.ean8,.ean13,.upce], completion: self.handleScan)
-                //                    })
-                //                }
-                //
-                TextField("商品名称",text:$newGood.name)
+                Section(header: Text("基本信息")){
+                    TextField("商品名称",text:$newGood.name)
+                    TextField("单位，如：kg、个",text:$newGood.unit)
+                    TextField("产品分类",text:$newGood.category)
+                    TextField("商品描述",text:$newGood.description)
+                }
                 
-                VStack {
-                    HStack{
-                        Text("商品图片")
-                        Spacer()
-                        Button(action: {
-                            self.showCaptureImageView.toggle()
-                        }) {
-                            Image(systemName: "camera.viewfinder")
-                        }
-                    }
-                    
-                    image?.resizable()
-                        .frame(width: 250, height: 250)
-                        .shadow(radius: 10)
-                    
-                }.sheet(isPresented: $showCaptureImageView, content: {
-                    CaptureImageView(isShown: $showCaptureImageView, image: $image,file: $file)
-                })
-                //                TextField("商品进价",value:$newGood.cost, formatter: NumberFormatter())
-                //                    .keyboardType(.numbersAndPunctuation)
-                //                TextField("初始库存", value: $newGood.stock , formatter: NumberFormatter())
-                //                    .keyboardType(.numbersAndPunctuation)
-                TextField("商品单位",text:$newGood.unit)
-                TextField("产品分类",text:$newGood.category)
-                TextField("库位",text:$newGood.location)
-                //                TextField("供应商",text:$newGood.supplier)
-                TextField("商品描述",text:$newGood.description)
+                Section(header: Text("货架位置")){
+                    TextField("货架号",text:$newGood.shelfNumber)
+                    TextField("库位号",text:$newGood.shelfPosition)
+                }
+
             }.navigationBarTitle("添加新商品")
             .navigationBarItems(trailing:
                                     Button(action: {
@@ -105,7 +77,7 @@ struct AddGood: View {
                                             }
                                         }
                                         
-                                        self.newGood = Good( name: "", description: "", unit: "", stock:nil ,category: "",location:"")
+                                        self.newGood = Good( name: "", description: "", unit: "", stock:0 ,category: "" ,shelfNumber: "", shelfPosition: "")
                                         
                                     }, label: {
                                         Text("保存")

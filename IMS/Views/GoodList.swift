@@ -9,11 +9,8 @@ import SwiftUI
 
 struct GoodList : View {
     @EnvironmentObject var modelData: ModelData
-    //    @State private var showOTSOnly = false
     @State private var showAlert = false
-    //    @State var currentGood: Good?
-    
-    
+        
     //    var filteredGoods: [Good]{
     //        modelData.goods.filter{ good in
     //            (!showOTSOnly || good.ots)
@@ -21,23 +18,13 @@ struct GoodList : View {
     //    }
     
     
-    //    init() {
-    //        CloudKitHelper.fetch{ result in
-    //            switch result{
-    //            case .success(let newGood):
-    //                modelData.goods.append(newGood)
-    //            case .failure(let err):
-    //                print(err.localizedDescription)
-    //            }
-    //        }
-    //    }
-    //
+
     var body: some View{
         NavigationView{
             List{
-                ForEach(modelData.categories.keys.sorted(), id: \.self) { key in
+                ForEach(modelData.shelfs.keys.sorted(), id: \.self) { key in
                     Section(header: Text(key)){
-                        ForEach(modelData.categories[key] ?? []){ good in
+                        ForEach(modelData.shelfs[key] ?? []){ good in
                             NavigationLink(
                                 destination: GoodDetail(good: good)){
                                 GoodRow(good: good)
