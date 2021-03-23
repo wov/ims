@@ -10,7 +10,6 @@ import Foundation
 import CloudKit
 import SwiftUI
 
-
 struct CloudKitHelper {
     
     // MARK: - record types
@@ -31,6 +30,8 @@ struct CloudKitHelper {
         let goodRecord = CKRecord(recordType: RecordType.Goods)
         goodRecord["category"] = good.category as CKRecordValue
         goodRecord["name"] = good.name as CKRecordValue
+        goodRecord["code"] = good.code as CKRecordValue
+
         goodRecord["unit"] = good.unit as CKRecordValue
         goodRecord["description"] = good.description as CKRecordValue
         goodRecord["stock"] = good.stock as CKRecordValue
@@ -49,6 +50,8 @@ struct CloudKitHelper {
                 }
                 let recordID = record.recordID
                 guard let name = record["name"] as? String ,
+                      let code = record["code"] as? String ,
+                      
                       let description = record["description"] as? String ,
                       let unit = record["unit"] as? String ,
                       let category = record["category"] as? String,
@@ -60,7 +63,7 @@ struct CloudKitHelper {
                     completion(.failure(CloudKitHelperError.castFailure))
                     return
                 }
-                let good = Good(recordID: recordID,name: name, description: description, unit: unit,  stock: stock, category: category, shelfNumber: shelfNumber, shelfPosition: shelfPosition)
+                let good = Good(recordID: recordID,name: name, description: description, unit: unit,  stock: stock, category: category, shelfNumber: shelfNumber, shelfPosition: shelfPosition,code:code)
                 completion(.success(good))
             }
         }
@@ -74,14 +77,16 @@ struct CloudKitHelper {
         //        query.sortDescriptors = [sort]
         
         let operation = CKQueryOperation(query: query)
-        operation.desiredKeys = ["name","category","unit","description","shelfNumber","shelfPosition","stock"]
-//        operation.resultsLimit = 50
+        operation.desiredKeys = ["name","category","unit","description","shelfNumber","shelfPosition","stock","code"]
+        //        operation.resultsLimit = 50
         
         operation.recordFetchedBlock = { record in
             DispatchQueue.main.async {
                 let recordID = record.recordID
                 
                 guard let name = record["name"] as? String ,
+                      let code = record["code"] as? String ,
+                      
                       let description = record["description"] as? String ,
                       let unit = record["unit"] as? String ,
                       let category = record["category"] as? String,
@@ -93,7 +98,7 @@ struct CloudKitHelper {
                     completion(.failure(CloudKitHelperError.castFailure))
                     return
                 }
-                let good = Good(recordID: recordID,name: name, description: description, unit: unit,  stock: stock, category: category, shelfNumber: shelfNumber, shelfPosition: shelfPosition)
+                let good = Good(recordID: recordID,name: name, description: description, unit: unit,  stock: stock, category: category, shelfNumber: shelfNumber, shelfPosition: shelfPosition,code:code)
                 completion(.success(good))
             }
         }
@@ -157,6 +162,8 @@ struct CloudKitHelper {
                         return
                     }
                     guard let name = record["name"] as? String ,
+                          let code = record["code"] as? String ,
+                          
                           let description = record["description"] as? String ,
                           let unit = record["unit"] as? String ,
                           let category = record["category"] as? String,
@@ -168,7 +175,7 @@ struct CloudKitHelper {
                         completion(.failure(CloudKitHelperError.castFailure))
                         return
                     }
-                    let good = Good(recordID: recordID,name: name, description: description, unit: unit,  stock: stock, category: category, shelfNumber: shelfNumber, shelfPosition: shelfPosition)
+                    let good = Good(recordID: recordID,name: name, description: description, unit: unit,  stock: stock, category: category, shelfNumber: shelfNumber, shelfPosition: shelfPosition,code:code)
                     completion(.success(good))
                 }
             }

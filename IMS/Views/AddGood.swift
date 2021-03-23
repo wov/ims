@@ -37,7 +37,7 @@ extension CaptureImageView: UIViewControllerRepresentable {
 struct AddGood: View {
     
     @EnvironmentObject var modelData: ModelData
-    @State private var newGood = Good( name: "", description: "", unit: "",  stock: 0 , category: "", shelfNumber:"",shelfPosition:"")
+    @State private var newGood = Good( name: "", description: "", unit: "",  stock: 0 , category: "", shelfNumber:"",shelfPosition:"",code:"")
     
     @State private var showingAlert = false
     @State private var isShowingScanner = false
@@ -55,6 +55,8 @@ struct AddGood: View {
             Form{
                 Section(header: Text("基本信息")){
                     TextField("商品名称",text:$newGood.name)
+                    TextField("商品编码",text:$newGood.code)
+
                     TextField("单位，如：kg、个",text:$newGood.unit)
                     TextField("产品分类",text:$newGood.category)
                     TextField("商品描述",text:$newGood.description)
@@ -77,7 +79,7 @@ struct AddGood: View {
                                             }
                                         }
                                         
-                                        self.newGood = Good( name: "", description: "", unit: "", stock:0 ,category: "" ,shelfNumber: "", shelfPosition: "")
+                                        self.newGood = Good( name: "", description: "", unit: "", stock:0 ,category: "" ,shelfNumber: "", shelfPosition: "",code:"")
                                         
                                     }, label: {
                                         Text("保存")

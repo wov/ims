@@ -20,4 +20,5 @@ struct Good:Identifiable{
     var category: String //分类
     var shelfNumber: String //货架号
     var shelfPosition: String //货架位
+    var code: String //商品编码
 }

@@ -19,9 +19,14 @@ struct GoodRow:View {
                 .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.gray/*@END_MENU_TOKEN@*/)
             VStack{
                 HStack {
-                    Text(good.name)
-                        .font(.title2)
-                        .foregroundColor(.primary)
+                    VStack(alignment: .leading) {
+                        Text(good.name)
+                            .font(.title2)
+                            .foregroundColor(.primary)
+                        Text(good.code)
+                            .font(.body)
+                            .foregroundColor(.secondary)
+                    }
                     Spacer()
                 }
                 HStack {
@@ -31,7 +36,6 @@ struct GoodRow:View {
                     Spacer()
                 }
             }
-            Spacer()
         }
     }
 }

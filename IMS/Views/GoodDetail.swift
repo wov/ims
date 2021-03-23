@@ -20,11 +20,6 @@ struct GoodDetail: View {
     var body: some View {
         VStack {
             VStack(alignment: .leading) {
-//                AsyncImage(url: URL(string: good.src)!,
-//                           placeholder: { Text("Loading ...") },
-//                           image: { Image(uiImage: $0).resizable() })
-//                    .frame(width: 100, height: 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-//
                 HStack {
                     Text("库存信息")
                         .font(.title2)
