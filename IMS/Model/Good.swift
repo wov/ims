@@ -17,8 +17,13 @@ struct Good:Identifiable{
     var description: String
     var unit: String
     var stock: Float
-//    var category: String //分类
+
     var shelfNumber: String //货架号
     var shelfPosition: String //货架位
     var code: String //商品编码
+    
+    var minimumStock: Float //最低库存量
+    var days2Sell: Int // 最近销量动态预警
+    
+    
 }

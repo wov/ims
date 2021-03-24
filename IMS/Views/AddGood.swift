@@ -37,18 +37,9 @@ extension CaptureImageView: UIViewControllerRepresentable {
 struct AddGood: View {
     
     @EnvironmentObject var modelData: ModelData
-    @State private var newGood = Good( name: "", description: "", unit: "",  stock: 0 , shelfNumber:"",shelfPosition:"",code:"")
+    @State private var newGood = Good( name: "", description: "", unit: "",  stock: 0 , shelfNumber:"",shelfPosition:"",code:"",minimumStock:0,days2Sell:0)
     
     @State private var showingAlert = false
-    @State private var lowerStock:Float = 0
-    
-//    @State private var isShowingScanner = false
-    
-//    @State var image: Image? = nil
-//    @State var showCaptureImageView: Bool = false
-//    @State var uiimage: UIImage? = nil
-//    @State var file: CKAsset? = nil
-    
     @State private var showSuccessStoreAlert = false
     
     
@@ -56,23 +47,59 @@ struct AddGood: View {
         NavigationView{
             Form{
                 Section(header: Text("基本信息")){
-                    TextField("商品名称",text:$newGood.name)
-                    TextField("商品编码",text:$newGood.code)
+                    
+                    HStack {
+                        Text("商品名称")
+                        TextField("商品名称",text:$newGood.name)
+                    }
+                    
+                    HStack {
+                        Text("商品编码")
+                        TextField("商品编码",text:$newGood.code)
+                    }
 
-                    TextField("单位,如:kg,个",text:$newGood.unit)
-//                    TextField("产品分类",text:$newGood.category)
-                    TextField("商品描述",text:$newGood.description)
+                    HStack {
+                        Text("计量单位")
+                        TextField("如:kg,个",text:$newGood.unit)
+                    }
+                    
+                    
+                    HStack {
+                        Text("商品描述")
+                        TextField("商品描述",text:$newGood.description)
+                    }
                 }
                 
                 Section(header: Text("货架位置")){
-                    TextField("货架号",text:$newGood.shelfNumber)
-                    TextField("库位号",text:$newGood.shelfPosition)
+                    
+                    HStack {
+                        Text("货架位置")
+                        TextField("填写货架号",text:$newGood.shelfNumber)
+                    }
+                    
+                    HStack {
+                        Text("库位位置")
+                        TextField("填写库位号",text:$newGood.shelfPosition)
+                    }
                 }
                 
                 Section(header: Text("库存预警设置")){
-                    TextField("初始库存", value: $newGood.stock, formatter: NumberFormatter())
-                    TextField("最低保有量",text:$newGood.shelfPosition)
-                    TextField("动态出库量,填天数",text:$newGood.shelfPosition)
+                    
+                    HStack {
+                        Text("初始库存量")
+                        TextField("初始库存", value: $newGood.stock, formatter: NumberFormatter())
+                    }
+                    
+                    HStack {
+                        Text("最低库存量")
+                        TextField("填最低库存数量", value: $newGood.minimumStock, formatter: NumberFormatter())
+//                        TextField("",text:$newGood.minimumStock)
+                    }
+                    
+                    HStack {
+                        Text("可销售天数")
+                        TextField("按最近出库量", value: $newGood.days2Sell, formatter: NumberFormatter())
+                    }
                 }
 
             }.navigationBarTitle("添加新商品")
@@ -87,7 +114,7 @@ struct AddGood: View {
                                             }
                                         }
                                         
-                                        self.newGood = Good( name: "", description: "", unit: "", stock:0  ,shelfNumber: "", shelfPosition: "",code:"")
+                                        self.newGood =  Good( name: "", description: "", unit: "",  stock: 0 , shelfNumber:"",shelfPosition:"",code:"",minimumStock:0,days2Sell:0)
                                         
                                     }, label: {
                                         Text("保存")
@@ -98,48 +125,7 @@ struct AddGood: View {
         }
     }
     
-//    func handleScan(result: Result<String,CodeScannerView.ScanError>){
-//        self.isShowingScanner = false
-//        
-//        switch result {
-//        case .success(let code):
-//            self.newGood.barCode = code
-//        case .failure:
-//            print("Scanning failed")
-//        }
-//    }
-    //
-    //    func save(good: Good){
-    //        let record = CKRecord(recordType: "goods")
-    //
-    //        record.setValuesForKeys([
-    //            "barcode": good.barCode,
-    //            "name": good.name,
-    //            "unit": good.unit,
-    //            "category": good.category,
-    //            "location": good.location,
-    //            "description": good.description
-    //        ])
-    //
-    //        record.setObject(self.file, forKey: "photo")
-    //
-    //        let container = CKContainer.default()
-    //        let database = container.privateCloudDatabase
-    //
-    //        database.save(record) { record, error in
-    //            if let error = error {
-    //                // Handle error.
-    //                print(error)
-    //                return
-    //            }
-    //
-    //            self.showSuccessStoreAlert = true
-    //
-    //            self.newGood = Good( name: "", description: "", unit: "", supplier: "", stock:nil , ots: false, barCode: "",category: "",location:"")
-    //
-    //        }
-    //    }
-    //
+
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
