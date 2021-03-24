@@ -11,18 +11,24 @@ struct GoodRow:View {
         
     var body: some View{
         HStack {
-            Text(good.shelfPosition)
-                .font(.headline)
-                .multilineTextAlignment(.leading)
-                .lineLimit(2)
-                .frame(width: 80.0, height: 80.0)
-                .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.gray/*@END_MENU_TOKEN@*/)
+            
+            VStack{
+                Text(good.shelfPosition)
+                    .font(.caption)
+                    .padding(5)
+                    .frame(width: 40.0, height: 20.0)
+                    .background(/*@START_MENU_TOKEN@*//*@PLACEHOLDER=View@*/Color.gray/*@END_MENU_TOKEN@*/)
+                Spacer()
+            }
             VStack{
                 HStack {
                     VStack(alignment: .leading) {
-                        Text(good.name)
-                            .font(.title2)
-                            .foregroundColor(.primary)
+                        HStack {
+                            Text(good.name)
+                                .font(.title2)
+                                .foregroundColor(.primary)
+                            
+                        }
                         Text(good.code)
                             .font(.body)
                             .foregroundColor(.secondary)

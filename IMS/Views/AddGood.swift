@@ -37,15 +37,17 @@ extension CaptureImageView: UIViewControllerRepresentable {
 struct AddGood: View {
     
     @EnvironmentObject var modelData: ModelData
-    @State private var newGood = Good( name: "", description: "", unit: "",  stock: 0 , category: "", shelfNumber:"",shelfPosition:"",code:"")
+    @State private var newGood = Good( name: "", description: "", unit: "",  stock: 0 , shelfNumber:"",shelfPosition:"",code:"")
     
     @State private var showingAlert = false
-    @State private var isShowingScanner = false
+    @State private var lowerStock:Float = 0
     
-    @State var image: Image? = nil
-    @State var showCaptureImageView: Bool = false
-    @State var uiimage: UIImage? = nil
-    @State var file: CKAsset? = nil
+//    @State private var isShowingScanner = false
+    
+//    @State var image: Image? = nil
+//    @State var showCaptureImageView: Bool = false
+//    @State var uiimage: UIImage? = nil
+//    @State var file: CKAsset? = nil
     
     @State private var showSuccessStoreAlert = false
     
@@ -57,14 +59,20 @@ struct AddGood: View {
                     TextField("商品名称",text:$newGood.name)
                     TextField("商品编码",text:$newGood.code)
 
-                    TextField("单位，如：kg、个",text:$newGood.unit)
-                    TextField("产品分类",text:$newGood.category)
+                    TextField("单位,如:kg,个",text:$newGood.unit)
+//                    TextField("产品分类",text:$newGood.category)
                     TextField("商品描述",text:$newGood.description)
                 }
                 
                 Section(header: Text("货架位置")){
                     TextField("货架号",text:$newGood.shelfNumber)
                     TextField("库位号",text:$newGood.shelfPosition)
+                }
+                
+                Section(header: Text("库存预警设置")){
+                    TextField("初始库存", value: $newGood.stock, formatter: NumberFormatter())
+                    TextField("最低保有量",text:$newGood.shelfPosition)
+                    TextField("动态出库量,填天数",text:$newGood.shelfPosition)
                 }
 
             }.navigationBarTitle("添加新商品")
@@ -79,7 +87,7 @@ struct AddGood: View {
                                             }
                                         }
                                         
-                                        self.newGood = Good( name: "", description: "", unit: "", stock:0 ,category: "" ,shelfNumber: "", shelfPosition: "",code:"")
+                                        self.newGood = Good( name: "", description: "", unit: "", stock:0  ,shelfNumber: "", shelfPosition: "",code:"")
                                         
                                     }, label: {
                                         Text("保存")

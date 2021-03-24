@@ -20,6 +20,9 @@ struct GoodDetail: View {
     var body: some View {
         VStack {
             VStack(alignment: .leading) {
+                Text(good.description)
+                    .font(.body)
+                Divider()
                 HStack {
                     Text("库存信息")
                         .font(.title2)
@@ -30,16 +33,8 @@ struct GoodDetail: View {
                 }
                 .font(.subheadline)
                 .foregroundColor(.secondary)
-                
                 Divider()
                 
-                Form{
-                    TextField("库存",value:$modelData.goods[goodIndex].stock,formatter: NumberFormatter())
-                }
-                
-                Text("商品日志")
-                    .font(.title2)
-                Text("good.logs")
             }
             .padding()
             
@@ -49,12 +44,12 @@ struct GoodDetail: View {
 }
 
 struct GoodDetail_Previews: PreviewProvider {
-//    static var goods = ModelData().goods
+    //    static var goods = ModelData().goods
     static let modelData = ModelData()
-
+    
     static var previews: some View {
         GoodDetail(good: modelData.goods[0])
             .environmentObject(modelData)
-//        GoodDetail(good: goods[0])
+        //        GoodDetail(good: goods[0])
     }
 }
