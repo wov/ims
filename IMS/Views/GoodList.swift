@@ -10,32 +10,40 @@ import SwiftUI
 struct GoodList : View {
     @EnvironmentObject var modelData: ModelData
     @State private var showAlert = false
-        
-    //    var filteredGoods: [Good]{
-    //        modelData.goods.filter{ good in
-    //            (!showOTSOnly || good.ots)
-    //        }
-    //    }
+    @State private var loading = true
     
-    
-
     var body: some View{
         NavigationView{
-            List{
-                ForEach(modelData.shelfs.keys.sorted(), id: \.self) { key in
-                    Section(header: Text("货架：\(key)")){
-                        ForEach(modelData.shelfs[key] ?? []){ good in
-                            NavigationLink(
-                                destination: GoodDetail(good: good)){
-                                GoodRow(good: good)
+            if self.loading{
+                ProgressView()
+            }else{
+                List{
+                    ForEach(modelData.shelfs.keys.sorted(), id: \.self) { key in
+                        Section(header: Text("货架：\(key)")){
+                            ForEach(modelData.shelfs[key] ?? []){ good in
+                                NavigationLink(
+                                    destination: GoodDetail(good: good)){
+                                    GoodRow(good: good)
+                                }
                             }
                         }
                     }
                 }
+                .navigationTitle("商品列表")
+                
             }
-            .navigationTitle("商品列表")
+            
         }.onAppear{
-            modelData.fetchData()
+//            self.loading = true
+            modelData.fetchData(){ result in
+                switch result{
+                case .success:
+                    self.loading = false
+                case .failure(let err):
+                    print(err.localizedDescription)
+                }
+                
+            }
         }
     }
 }

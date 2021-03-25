@@ -15,6 +15,7 @@ struct CloudKitHelper {
     // MARK: - record types
     struct RecordType {
         static let Goods = "goods"
+        static let inouts = "inouts"
     }
     
     // MARK: - errors
@@ -127,7 +128,7 @@ struct CloudKitHelper {
     
     // MARK: - delete from CloudKit
     static func delete(recordID: CKRecord.ID, completion: @escaping (Result<CKRecord.ID, Error>) -> ()) {
-        CKContainer.default().publicCloudDatabase.delete(withRecordID: recordID) { (recordID, err) in
+        CKContainer.default().privateCloudDatabase.delete(withRecordID: recordID) { (recordID, err) in
             DispatchQueue.main.async {
                 if let err = err {
                     completion(.failure(err))
@@ -145,7 +146,7 @@ struct CloudKitHelper {
     // MARK: - modify in CloudKit
     static func modify(item: Good, completion: @escaping (Result<Good, Error>) -> ()) {
         guard let recordID = item.recordID else { return }
-        CKContainer.default().publicCloudDatabase.fetch(withRecordID: recordID) { record, err in
+        CKContainer.default().privateCloudDatabase.fetch(withRecordID: recordID) { record, err in
             if let err = err {
                 DispatchQueue.main.async {
                     completion(.failure(err))
