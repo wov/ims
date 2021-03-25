@@ -26,7 +26,7 @@ struct GoodList : View {
                                     GoodRow(good: good)
                                 }
                             }
-                        }
+                        }.textCase(nil)
                     }
                 }
                 .navigationTitle("商品列表")
