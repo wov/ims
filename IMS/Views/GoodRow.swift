@@ -36,7 +36,7 @@ struct GoodRow:View {
                     Spacer()
                 }
                 HStack {
-                    Text("库存：\(String(format: "%.2f", good.stock))\(good.unit)")
+                    Text("库存：\(String(good.stock.clean))\(good.unit)")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     Spacer()

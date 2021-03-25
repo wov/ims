@@ -44,6 +44,32 @@ struct AddGood: View {
     
     
     var body: some View {
+        
+        let stockBinding = Binding<String>(get: {
+            self.newGood.stock == 0 ?
+                "":
+                String(self.newGood.stock.clean)
+        }, set: {
+            self.newGood.stock = Float($0) ?? 0
+        })
+        
+        let minimumStockBinding = Binding<String>(get: {
+            self.newGood.minimumStock == 0 ?
+                "":
+                String(self.newGood.minimumStock.clean)
+        }, set: {
+            self.newGood.minimumStock = Float($0) ?? 0
+        })
+        
+        let days2SellBinding = Binding<String>(get: {
+            self.newGood.days2Sell == 0 ?
+                "" :
+                String(self.newGood.days2Sell)
+        }, set: {
+            self.newGood.days2Sell = Int($0) ?? 0
+        })
+        
+        
         NavigationView{
             Form{
                 Section(header: Text("基本信息")){
@@ -57,7 +83,7 @@ struct AddGood: View {
                         Text("商品编码")
                         TextField("商品编码",text:$newGood.code)
                     }
-
+                    
                     HStack {
                         Text("计量单位")
                         TextField("如:kg,个",text:$newGood.unit)
@@ -86,25 +112,35 @@ struct AddGood: View {
                 Section(header: Text("库存预警设置")){
                     
                     HStack {
-                        Text("初始库存量")
-                        TextField("初始库存", value: $newGood.stock, formatter: NumberFormatter())
+                        Text("初始库存")
+                            .keyboardType(.numberPad)
+                        TextField("初始库存",
+                                  text: stockBinding
+                        )
+                        .keyboardType(.numberPad)
                     }
                     
                     HStack {
-                        Text("最低库存量")
-                        TextField("填最低库存数量", value: $newGood.minimumStock, formatter: NumberFormatter())
-//                        TextField("",text:$newGood.minimumStock)
+                        Text("最低库存")
+                        TextField("填最低库存数量",
+                                  text:minimumStockBinding)
+                            .keyboardType(.numberPad)
                     }
                     
                     HStack {
-                        Text("可销售天数")
-                        TextField("按最近出库量", value: $newGood.days2Sell, formatter: NumberFormatter())
+                        Text("周转天数")
+                        
+                        TextField("按最近出库量",
+                                  text:days2SellBinding)
+                            .keyboardType(.numberPad)
+                        
                     }
                 }
-
+                
             }.navigationBarTitle("添加新商品")
             .navigationBarItems(trailing:
                                     Button(action: {
+                                        print(newGood)
                                         CloudKitHelper.save(good:newGood){ result in
                                             switch result {
                                             case .success:
@@ -125,7 +161,7 @@ struct AddGood: View {
         }
     }
     
-
+    
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]

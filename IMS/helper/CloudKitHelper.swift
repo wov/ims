@@ -34,13 +34,15 @@ struct CloudKitHelper {
         
         goodRecord["unit"] = good.unit as CKRecordValue
         goodRecord["description"] = good.description as CKRecordValue
-        goodRecord["stock"] = good.stock as CKRecordValue
+        
+        goodRecord["stock"] = NSNumber(value: good.stock) // good.stock as NSNumber
+                
         goodRecord["shelfNumber"] = good.shelfNumber as CKRecordValue
         goodRecord["shelfPosition"] = good.shelfPosition as CKRecordValue
-        goodRecord["minimumStock"] = good.minimumStock as CKRecordValue
-        goodRecord["days2Sell"] = good.days2Sell as CKRecordValue
         
-        
+        goodRecord["minimumStock"] = NSNumber(value: good.minimumStock)
+        goodRecord["days2Sell"] = NSNumber(value: good.days2Sell)
+
         CKContainer.default().privateCloudDatabase.save(goodRecord) { (record, err) in
             DispatchQueue.main.async {
                 if let err = err {
