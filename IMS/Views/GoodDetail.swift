@@ -23,23 +23,40 @@ struct GoodDetail: View {
                 Text(good.description)
                     .font(.body)
                 Divider()
-                HStack {
-                    Text("库存信息")
-                        .font(.title2)
-                    Spacer()
-                    Text("剩余库存\(String(good.stock.clean))\(good.unit)")
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-                .font(.subheadline)
-                .foregroundColor(.secondary)
-                Divider()
                 
+                
+                List{
+                    Section(header: Text("库存信息")){
+                        HStack{
+                            Text("当前库存")
+                            Spacer()
+                            Text("\(String(good.stock.clean))\(good.unit)")
+                        }
+                        
+                        HStack{
+                            Text("已采购库存")
+                            Spacer()
+                            Text("xxx")
+                        }
+                        
+                        
+                    }
+                    
+                    Button("删除", action: {
+                        self.delGood(good:good)
+                    })
+                }
             }
             .padding()
             
             Spacer()
         }.navigationTitle(good.name)
+    }
+    
+    func delGood(good:Good){
+        CloudKitHelper.delete(recordID: good.recordID! , completion: {_ in 
+            
+        })
     }
 }
 
