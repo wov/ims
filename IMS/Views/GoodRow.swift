@@ -42,17 +42,29 @@ struct GoodRow:View {
                     Spacer()
                 }
             }
+            if good.OTS {
+                           Image(systemName: "exclamationmark.triangle.fill")
+                               .foregroundColor(.red)
+                       }
+            
+            
+            
         }
     }
 }
 
 struct GoodRow_Previews : PreviewProvider{
+    static var good = Good(name: "迷你夜灯", description: "", unit: "个", stock: 10, shelfNumber: "A1", shelfPosition: "101", code: "MTYD", minimumStock: 20, days2Sell: 20,OTS:true)
+    
+    
     static var goods = ModelData().goods
     
     static var previews: some View{
-        Group {
-            GoodRow(good: goods[0])
-            GoodRow(good: goods[1])
-        }.previewLayout(.fixed(width: 300, height: 70))
+        GoodRow(good: good).previewLayout(.fixed(width: 300, height: 70))
+        
+//        Group {
+//            GoodRow(good: goods[0])
+//            GoodRow(good: goods[1])
+//        }.previewLayout(.fixed(width: 300, height: 70))
     }
 }

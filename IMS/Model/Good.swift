@@ -25,7 +25,7 @@ struct Good:Identifiable{
     var minimumStock: Float //最低库存量
     var days2Sell: Int // 最近销量动态预警
     
-//    var OTS: Bool
+    var OTS: Bool = false //out of stock 是否缺货
 }
 
 //extension Good {

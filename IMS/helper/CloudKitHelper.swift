@@ -108,7 +108,9 @@ struct CloudKitHelper {
                     return
                 }
                 
-                let good = Good(recordID: recordID,name: name, description: description, unit: unit,  stock: stock,  shelfNumber: shelfNumber, shelfPosition: shelfPosition,code:code, minimumStock:minimumStock ,days2Sell: days2Sell )
+                let OTS: Bool = stock >= minimumStock ? false : true
+                
+                let good = Good(recordID: recordID,name: name, description: description, unit: unit,  stock: stock,  shelfNumber: shelfNumber, shelfPosition: shelfPosition,code:code, minimumStock:minimumStock ,days2Sell: days2Sell , OTS: OTS )
                 completion(.success(good))
             }
         }
@@ -229,10 +231,10 @@ struct CloudKitHelper {
 //                    }
 //                    guard let name = record["name"] as? String ,
 //                          let code = record["code"] as? String ,
-//                          
+//
 //                          let description = record["description"] as? String ,
 //                          let unit = record["unit"] as? String ,
-//                          
+//
 //                          let stock = record["stock"] as? Float,
 //                          let shelfNumber = record["shelfNumber"] as? String,
 //                          let shelfPosition = record["shelfPosition"] as? String,
@@ -242,7 +244,7 @@ struct CloudKitHelper {
 //                        completion(.failure(CloudKitHelperError.castFailure))
 //                        return
 //                    }
-//                    
+//
 //                    let good = Good(recordID: recordID,name: name, description: description, unit: unit,  stock: stock,  shelfNumber: shelfNumber, shelfPosition: shelfPosition,code:code, minimumStock:minimumStock ,days2Sell: days2Sell )
 //                    completion(.success(good))
 //                }

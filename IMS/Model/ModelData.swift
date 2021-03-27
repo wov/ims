@@ -7,12 +7,11 @@
 
 import Foundation
 import Combine
-import CloudKit
+//import CloudKit
 
 
 final class ModelData: ObservableObject{
     @Published var goods :[Good] = []
-    
     
     func fetchData( completion: @escaping (Result<Good, Error>) -> ()) {
         CloudKitHelper.fetch{ result in
