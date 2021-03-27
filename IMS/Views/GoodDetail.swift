@@ -11,7 +11,7 @@ struct GoodDetail: View {
     @EnvironmentObject var modelData: ModelData
     
     var good: Good
-    @State private var stock: String = ""
+    @State private var showStockOut: Bool = false
     
     var goodIndex: Int {
         modelData.goods.firstIndex(where: {$0.recordID == good.recordID})!
@@ -33,9 +33,7 @@ struct GoodDetail: View {
                 HStack{
                     Text(good.description)
                 }
-                
             }
-            
             
             Section(header: Text("库存信息")){
                 HStack{
@@ -55,7 +53,7 @@ struct GoodDetail: View {
                 }
                 
                 Button("商品出库",action:{
-                    
+                    self.showStockOut.toggle()
                 })
                 Button("加入到采购单",action:{
                     
@@ -75,7 +73,6 @@ struct GoodDetail: View {
                 }
             }
             
-            
             Section(){
                 Button("删除",action:{
                     self.delGood(good: good)
@@ -84,10 +81,9 @@ struct GoodDetail: View {
             
         }.navigationTitle(good.name)
         .listStyle(InsetGroupedListStyle())
-        
-        
-        
-        
+        .sheet(isPresented: $showStockOut, content: {
+            StockOut(good: good)
+        })
         
     }
     

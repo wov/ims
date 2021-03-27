@@ -116,15 +116,14 @@ struct AddGood: View {
                             .keyboardType(.numberPad)
                         TextField("初始库存",
                                   text: stockBinding
-                        )
-                        .keyboardType(.numberPad)
+                        ).keyboardType(UIKeyboardType.numberPad)
                     }
                     
                     HStack {
                         Text("最低库存")
                         TextField("填最低库存数量",
                                   text:minimumStockBinding)
-                            .keyboardType(.numberPad)
+                            .keyboardType(UIKeyboardType.numberPad)
                     }
                     
                     HStack {
@@ -132,7 +131,7 @@ struct AddGood: View {
                         
                         TextField("按最近出库量",
                                   text:days2SellBinding)
-                            .keyboardType(.numberPad)
+                            .keyboardType(UIKeyboardType.numberPad)
                         
                     }
                 }

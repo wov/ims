@@ -32,7 +32,6 @@ struct GoodList : View {
                 .navigationTitle("商品列表")
             }
         }.onAppear{
-//            self.loading = true
             modelData.fetchData(){ result in
                 switch result{
                 case .success:

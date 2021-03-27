@@ -143,24 +143,27 @@ struct CloudKitHelper {
         }
     }
     
-    // MARK: - modify in CloudKit
-    static func modify(item: Good, completion: @escaping (Result<Good, Error>) -> ()) {
-        guard let recordID = item.recordID else { return }
-        CKContainer.default().privateCloudDatabase.fetch(withRecordID: recordID) { record, err in
+    // 修改库存量
+    static func changeStock(good:Good , changeStock: Float, completion:  @escaping (Result<Good, Error>) -> ()){
+        guard let recordID = good.recordID else { return }
+        CKContainer.default().privateCloudDatabase.fetch(withRecordID: recordID){ record,err in
             if let err = err {
                 DispatchQueue.main.async {
                     completion(.failure(err))
                 }
                 return
             }
+            
             guard let record = record else {
                 DispatchQueue.main.async {
                     completion(.failure(CloudKitHelperError.recordFailure))
                 }
                 return
             }
-            //            record["text"] = item.text as CKRecordValue
-            //            todo: 增加修改的值
+            
+            record["stock"] = NSNumber(value: good.stock + changeStock)
+            
+            
             CKContainer.default().privateCloudDatabase.save(record) { (record, err) in
                 DispatchQueue.main.async {
                     if let err = err {
@@ -191,6 +194,59 @@ struct CloudKitHelper {
                     completion(.success(good))
                 }
             }
+            
+            
         }
+        
     }
+    
+//    // MARK: - modify in CloudKit
+//    static func modify(item: Good, completion: @escaping (Result<Good, Error>) -> ()) {
+//        guard let recordID = item.recordID else { return }
+//        CKContainer.default().privateCloudDatabase.fetch(withRecordID: recordID) { record, err in
+//            if let err = err {
+//                DispatchQueue.main.async {
+//                    completion(.failure(err))
+//                }
+//                return
+//            }
+//            guard let record = record else {
+//                DispatchQueue.main.async {
+//                    completion(.failure(CloudKitHelperError.recordFailure))
+//                }
+//                return
+//            }
+//            //            record["text"] = item.text as CKRecordValue
+//            CKContainer.default().privateCloudDatabase.save(record) { (record, err) in
+//                DispatchQueue.main.async {
+//                    if let err = err {
+//                        completion(.failure(err))
+//                        return
+//                    }
+//                    guard let record = record else {
+//                        completion(.failure(CloudKitHelperError.recordFailure))
+//                        return
+//                    }
+//                    guard let name = record["name"] as? String ,
+//                          let code = record["code"] as? String ,
+//                          
+//                          let description = record["description"] as? String ,
+//                          let unit = record["unit"] as? String ,
+//                          
+//                          let stock = record["stock"] as? Float,
+//                          let shelfNumber = record["shelfNumber"] as? String,
+//                          let shelfPosition = record["shelfPosition"] as? String,
+//                          let minimumStock = record["minimumStock"] as? Float,
+//                          let days2Sell = record["days2Sell"] as? Int
+//                    else {
+//                        completion(.failure(CloudKitHelperError.castFailure))
+//                        return
+//                    }
+//                    
+//                    let good = Good(recordID: recordID,name: name, description: description, unit: unit,  stock: stock,  shelfNumber: shelfNumber, shelfPosition: shelfPosition,code:code, minimumStock:minimumStock ,days2Sell: days2Sell )
+//                    completion(.success(good))
+//                }
+//            }
+//        }
+//    }
 }
