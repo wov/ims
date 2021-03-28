@@ -35,7 +35,7 @@ struct GoodList : View {
                 .navigationBarItems(trailing: Button(action: {
                     self.showAddGood.toggle()
                 }){
-                    Text("新增")
+                    Text("添加商品")
 //                    Image(systemName: "plus.square.fill")
                 })
             }

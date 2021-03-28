@@ -12,7 +12,7 @@ struct ContentView: View {
     
     enum Tab{
         case list
-        case new
+        case setting
     }
     
     
@@ -25,11 +25,11 @@ struct ContentView: View {
                 }
                 .tag(Tab.list)
             
-            AddGood()
+            Setting()
                 .tabItem {
                     Label("设置",systemImage:"gearshape.fill")
                 }
-                .tag(Tab.new)
+                .tag(Tab.setting)
             
         }
         
