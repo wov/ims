@@ -12,6 +12,8 @@ struct GoodList : View {
     @State private var showAlert = false
     @State private var loading = true
     
+    @State private var showAddGood: Bool = false
+    
     var body: some View{
         NavigationView{
             if self.loading{
@@ -30,8 +32,17 @@ struct GoodList : View {
                     }
                 }
                 .navigationTitle("商品列表")
+                .navigationBarItems(trailing: Button(action: {
+                    self.showAddGood.toggle()
+                }){
+                    Text("新增")
+//                    Image(systemName: "plus.square.fill")
+                })
             }
         }.onAppear{
+            //添加cloudkit订阅
+            CloudKitHelper.addSubscripion()
+            
             modelData.fetchData(){ result in
                 switch result{
                 case .success:
@@ -42,6 +53,9 @@ struct GoodList : View {
                 
             }
         }
+        .sheet(isPresented: $showAddGood, content: {
+            AddGood()
+        })
     }
 }
 

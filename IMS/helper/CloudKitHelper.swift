@@ -26,6 +26,36 @@ struct CloudKitHelper {
         case cursorFailure
     }
     
+    static func addSubscripion(){
+        guard !UserDefaults.standard.bool(forKey:  "didCreateFeedSubscription")
+            else {return}
+        
+        let subscription = CKDatabaseSubscription(subscriptionID: "goods-changes")
+        
+        subscription.recordType = RecordType.Goods
+        
+        let notificationInfo = CKSubscription.NotificationInfo()
+        notificationInfo.shouldSendContentAvailable = true
+        subscription.notificationInfo = notificationInfo
+
+        let operation = CKModifySubscriptionsOperation(
+            subscriptionsToSave: [subscription], subscriptionIDsToDelete: nil)
+
+        operation.modifySubscriptionsCompletionBlock = { subscriptions, deleted, error in
+            if let error = error {
+                print(error)
+                // Handle the error.
+            } else {
+                // Record that the system successfully creates the subscription
+                // to prevent unnecessary trips to the server in later launches.
+                UserDefaults.standard.setValue(true, forKey: "didCreateFeedSubscription")
+            }
+        }
+        
+        operation.qualityOfService = .utility
+        CKContainer.default().privateCloudDatabase.add(operation)
+    }
+    
     // MARK: - saving to CloudKit
     static func save(good: Good, completion: @escaping (Result<Good, Error>) -> ()) {
         let goodRecord = CKRecord(recordType: RecordType.Goods)
@@ -202,53 +232,4 @@ struct CloudKitHelper {
         
     }
     
-//    // MARK: - modify in CloudKit
-//    static func modify(item: Good, completion: @escaping (Result<Good, Error>) -> ()) {
-//        guard let recordID = item.recordID else { return }
-//        CKContainer.default().privateCloudDatabase.fetch(withRecordID: recordID) { record, err in
-//            if let err = err {
-//                DispatchQueue.main.async {
-//                    completion(.failure(err))
-//                }
-//                return
-//            }
-//            guard let record = record else {
-//                DispatchQueue.main.async {
-//                    completion(.failure(CloudKitHelperError.recordFailure))
-//                }
-//                return
-//            }
-//            //            record["text"] = item.text as CKRecordValue
-//            CKContainer.default().privateCloudDatabase.save(record) { (record, err) in
-//                DispatchQueue.main.async {
-//                    if let err = err {
-//                        completion(.failure(err))
-//                        return
-//                    }
-//                    guard let record = record else {
-//                        completion(.failure(CloudKitHelperError.recordFailure))
-//                        return
-//                    }
-//                    guard let name = record["name"] as? String ,
-//                          let code = record["code"] as? String ,
-//
-//                          let description = record["description"] as? String ,
-//                          let unit = record["unit"] as? String ,
-//
-//                          let stock = record["stock"] as? Float,
-//                          let shelfNumber = record["shelfNumber"] as? String,
-//                          let shelfPosition = record["shelfPosition"] as? String,
-//                          let minimumStock = record["minimumStock"] as? Float,
-//                          let days2Sell = record["days2Sell"] as? Int
-//                    else {
-//                        completion(.failure(CloudKitHelperError.castFailure))
-//                        return
-//                    }
-//
-//                    let good = Good(recordID: recordID,name: name, description: description, unit: unit,  stock: stock,  shelfNumber: shelfNumber, shelfPosition: shelfPosition,code:code, minimumStock:minimumStock ,days2Sell: days2Sell )
-//                    completion(.success(good))
-//                }
-//            }
-//        }
-//    }
 }

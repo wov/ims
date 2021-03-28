@@ -27,7 +27,7 @@ struct ContentView: View {
             
             AddGood()
                 .tabItem {
-                    Label("新增商品",systemImage:"plus.square.fill")
+                    Label("设置",systemImage:"gearshape.fill")
                 }
                 .tag(Tab.new)
             
