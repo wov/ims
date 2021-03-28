@@ -82,7 +82,7 @@ struct GoodDetail: View {
         }.navigationTitle(good.name)
         .listStyle(InsetGroupedListStyle())
         .sheet(isPresented: $showStockOut, content: {
-            StockOut(good: good)  
+            StockOut(good: good, showSheetView: self.$showStockOut)
         })
     }
     

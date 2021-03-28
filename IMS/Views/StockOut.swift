@@ -15,8 +15,8 @@ struct StockOut: View {
     
     var good:Good
     @State private var outStockNumber: Float = 0
-    
-    
+    @Binding var showSheetView: Bool
+
     var body: some View {
         
         let stockBinding = Binding<String>(get: {
@@ -42,7 +42,8 @@ struct StockOut: View {
                 }.padding()
             }.navigationBarItems(trailing: Button("保存", action: {
                 self.saveChangeToCloudKit(good: good)
-            }))
+            }).disabled(outStockNumber == 0)
+            )
             .navigationBarTitle(good.name, displayMode: .inline)
         }
     }
@@ -53,6 +54,7 @@ struct StockOut: View {
         CloudKitHelper.changeStock(good: good, changeStock: -outStockNumber, completion: { result in
             switch result {
             case .success:
+                self.showSheetView = false
                 print("success")
             case .failure:
                 print("fail")
@@ -67,8 +69,26 @@ struct StockOut_Previews: PreviewProvider {
     
     
     static let tempgood:Good = Good(name: "短夜灯", description: "test", unit: "kg", stock: 100, shelfNumber: "A1", shelfPosition: "101", code: "MTYD", minimumStock: 20, days2Sell: 2)
+    @State private var showSheetView: Bool = false
+
     
+
     static var previews: some View {
-        StockOut(good: tempgood)
+        StatefulPreviewWrapper(false) { StockOut(good: tempgood,showSheetView: $0) }
+    }
+}
+
+
+struct StatefulPreviewWrapper<Value, Content: View>: View {
+    @State var value: Value
+    var content: (Binding<Value>) -> Content
+
+    var body: some View {
+        content($value)
+    }
+
+    init(_ value: Value, content: @escaping (Binding<Value>) -> Content) {
+        self._value = State(wrappedValue: value)
+        self.content = content
     }
 }
