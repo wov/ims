@@ -11,11 +11,11 @@ import SwiftUI
 //import SwiftUI
 
 struct StockOut: View {
-//    @State private var draftProfile = Profile.default
-
+    //    @State private var draftProfile = Profile.default
+    
     var good:Good
     @State private var outStockNumber: Float = 0
-
+    
     
     var body: some View {
         
@@ -27,32 +27,40 @@ struct StockOut: View {
             self.outStockNumber = Float($0) ?? 0
         })
         
-        
-        VStack{
-            Text(good.name)
-            Text("出库数量")
-            HStack{
-                TextField("填写出库数量",
-                          text:stockBinding,
-                          onCommit: {
-                            CloudKitHelper.changeStock(good: good, changeStock: -outStockNumber, completion: { result in
-                                switch result {
-                                case .success:
-                                    print("success")
-                                case .failure:
-                                    print("fail")
-                                }
-                            })
-                          }
-                        )
-                
-            }.padding()
-
-            
+        NavigationView {
+            VStack{
+                Text(good.name)
+                Text("出库数量")
+                HStack{
+                    TextField("填写出库数量",
+                              text:stockBinding,
+                              onCommit: {
+                                self.saveChangeToCloudKit(good: good)
+                              }
+                    )
+                    
+                }.padding()
+            }.navigationBarItems(trailing: Button("保存", action: {
+                self.saveChangeToCloudKit(good: good)
+            }))
+            .navigationBarTitle(good.name, displayMode: .inline)
         }
-        
-
     }
+    
+    func saveChangeToCloudKit(good:Good){
+        //TODO: if there no value ,should warning the user.
+        
+        CloudKitHelper.changeStock(good: good, changeStock: -outStockNumber, completion: { result in
+            switch result {
+            case .success:
+                print("success")
+            case .failure:
+                print("fail")
+            }
+        })
+        
+    }
+    
 }
 
 struct StockOut_Previews: PreviewProvider {
