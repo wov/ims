@@ -45,13 +45,25 @@ struct Setting: View {
                 
             }.navigationTitle("设置")
         }.onAppear{
-            let notificationPermission: Bool = NotificationHelper.getNotificationStatus()
-            switch notificationPermission{
-            case true:
-                self.hasNotifacationPermission = true
-            case false:
-                self.hasNotifacationPermission = false
+            
+            NotificationHelper.getNotificationStatus(){ result in
+                switch result {
+                case .success:
+                    self.hasNotifacationPermission = true
+                case .failure:
+                    print("fail")
+                }
             }
+            
+//            let notificationPermission: Bool = NotificationHelper.getNotificationStatus()
+//            print("the notifacation is:")
+//            print(notificationPermission)
+//            switch notificationPermission{
+//            case true:
+//                self.hasNotifacationPermission = true
+//            case false:
+//                self.hasNotifacationPermission = false
+//            }
         }
         
         
