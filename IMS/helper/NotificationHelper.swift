@@ -17,51 +17,41 @@ enum notificationAuthorError: Error{
 struct NotificationHelper{
     
     static func getNotificationStatus( completion: @escaping (Result<Bool, notificationAuthorError>) -> ()){
-        
-//        var notificationPermission: Bool = false
-        
+                
         DispatchQueue.main.async {
-
-        
-        let current = UNUserNotificationCenter.current()
-                current.getNotificationSettings(completionHandler: { permission in
+            let current = UNUserNotificationCenter.current()
+            current.getNotificationSettings(completionHandler: { permission in
+                switch permission.authorizationStatus  {
+                case .authorized:
+                    print("User granted permission for notification")
+                    //                        notificationPermission = true
+                    completion(.success(true))
+                case .denied:
+                    print("User denied notification permission")
+                    //                        notificationPermission = false
+                    completion(.failure(.denied))
                     
-//                    print(permission)
+                case .notDetermined:
+                    print("Notification permission haven't been asked yet")
+                    completion(.failure(.notDetermined))
                     
-                    
-                    switch permission.authorizationStatus  {
-                    case .authorized:
-                        print("User granted permission for notification")
-//                        notificationPermission = true
-                        completion(.success(true))
-                    case .denied:
-                        print("User denied notification permission")
-//                        notificationPermission = false
-                        completion(.failure(.denied))
-
-                    case .notDetermined:
-                        print("Notification permission haven't been asked yet")
-                        completion(.failure(.notDetermined))
-
-//                        notificationPermission = false
-                    case .provisional:
-                        // @available(iOS 12.0, *)
-//                        notificationPermission = false
-                        completion(.failure(.provisional))
-                        print("The application is authorized to post non-interruptive user notifications.")
-                    case .ephemeral:
-                        // @available(iOS 14.0, *)
-//                        notificationPermission = false
-                        completion(.failure(.ephemeral))
-                        print("The application is temporarily authorized to post notifications. Only available to app clips.")
-                    @unknown default:
-                        completion(.failure(.unknow))
-//                        notificationPermission = false
-                        print("Unknow Status")
-                    }
-                })
-        
-//        return notificationPermission
+                //                        notificationPermission = false
+                case .provisional:
+                    // @available(iOS 12.0, *)
+                    //                        notificationPermission = false
+                    completion(.failure(.provisional))
+                    print("The application is authorized to post non-interruptive user notifications.")
+                case .ephemeral:
+                    // @available(iOS 14.0, *)
+                    //                        notificationPermission = false
+                    completion(.failure(.ephemeral))
+                    print("The application is temporarily authorized to post notifications. Only available to app clips.")
+                @unknown default:
+                    completion(.failure(.unknow))
+                    //                        notificationPermission = false
+                    print("Unknow Status")
+                }
+            })
         }
     }
     
@@ -81,8 +71,6 @@ struct NotificationHelper{
             completion(.success(false))
         }
     }
-    
-    
     
     
 }

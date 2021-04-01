@@ -27,31 +27,40 @@ struct CloudKitHelper {
     }
     
     static func addSubscripion(){
-        guard !UserDefaults.standard.bool(forKey:  "didCreateFeedSubscription")
-            else {return}
-        
-        let subscription = CKDatabaseSubscription(subscriptionID: "goods-changes")
-        
-        subscription.recordType = RecordType.Goods
-        
-        let notificationInfo = CKSubscription.NotificationInfo()
-        notificationInfo.shouldSendContentAvailable = true
-        subscription.notificationInfo = notificationInfo
+        // Create a subscription with an ID that's unique within the scope of
+        // the user's private database.
+        let subscription = CKDatabaseSubscription(subscriptionID: "feed-changes")
 
+        // Scope the subscription to just the 'Good' record type.
+        subscription.recordType = RecordType.Goods
+                
+        // Configure the notification so that the system delivers it silently
+        // and, therefore, doesn't require permission from the user.
+        let notificationInfo = CKSubscription.NotificationInfo()
+        notificationInfo.alertBody = "somthing has changed"
+        notificationInfo.soundName = "default"
+        notificationInfo.shouldBadge = true
+        
+        
+        subscription.notificationInfo = notificationInfo
+                
+        // Create an operation that saves the subscription to the server.
         let operation = CKModifySubscriptionsOperation(
             subscriptionsToSave: [subscription], subscriptionIDsToDelete: nil)
 
         operation.modifySubscriptionsCompletionBlock = { subscriptions, deleted, error in
             if let error = error {
-                print(error)
                 // Handle the error.
+                print(error)
             } else {
                 // Record that the system successfully creates the subscription
                 // to prevent unnecessary trips to the server in later launches.
                 UserDefaults.standard.setValue(true, forKey: "didCreateFeedSubscription")
             }
         }
-        
+                
+        // Set an appropriate QoS and add the operation to the private
+        // database's operation queue to execute it.
         operation.qualityOfService = .utility
         CKContainer.default().privateCloudDatabase.add(operation)
     }

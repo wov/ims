@@ -10,28 +10,28 @@ import CodeScanner
 import CloudKit
 import PhotosUI
 
-struct CaptureImageView {
-    @Binding var isShown: Bool
-    @Binding var image: Image?
-    @Binding var file: CKAsset?
-    func makeCoordinator() -> Coordinator {
-        return Coordinator(isShown: $isShown, image: $image , file: $file)
-    }
-}
-
-extension CaptureImageView: UIViewControllerRepresentable {
-    func makeUIViewController(context: UIViewControllerRepresentableContext<CaptureImageView>) -> UIImagePickerController {
-        let picker = UIImagePickerController()
-        picker.delegate = context.coordinator
-        picker.sourceType = .camera
-        return picker
-    }
-    
-    func updateUIViewController(_ uiViewController: UIImagePickerController,
-                                context: UIViewControllerRepresentableContext<CaptureImageView>) {
-        
-    }
-}
+//struct CaptureImageView {
+//    @Binding var isShown: Bool
+//    @Binding var image: Image?
+//    @Binding var file: CKAsset?
+//    func makeCoordinator() -> Coordinator {
+//        return Coordinator(isShown: $isShown, image: $image , file: $file)
+//    }
+//}
+//
+//extension CaptureImageView: UIViewControllerRepresentable {
+//    func makeUIViewController(context: UIViewControllerRepresentableContext<CaptureImageView>) -> UIImagePickerController {
+//        let picker = UIImagePickerController()
+//        picker.delegate = context.coordinator
+//        picker.sourceType = .camera
+//        return picker
+//    }
+//
+//    func updateUIViewController(_ uiViewController: UIImagePickerController,
+//                                context: UIViewControllerRepresentableContext<CaptureImageView>) {
+//
+//    }
+//}
 
 
 struct AddGood: View {
@@ -113,47 +113,56 @@ struct AddGood: View {
                     
                     HStack {
                         Text("初始库存")
-                            .keyboardType(.numberPad)
+                        
                         TextField("初始库存",
                                   text: stockBinding
-                        ).keyboardType(UIKeyboardType.numberPad)
+                        )
+                        .keyboardType(.decimalPad)
+                        
                     }
                     
                     HStack {
                         Text("最低库存")
                         TextField("填最低库存数量",
                                   text:minimumStockBinding)
-                            .keyboardType(UIKeyboardType.numberPad)
+                            .keyboardType(.decimalPad)
+                        
                     }
                     
                     HStack {
                         Text("周转天数")
-                        
                         TextField("按最近出库量",
                                   text:days2SellBinding)
-                            .keyboardType(UIKeyboardType.numberPad)
+                            .keyboardType(.decimalPad)
+                        
+                        
                         
                     }
                 }
                 
-            }.navigationBarTitle("添加新商品")
-            .navigationBarItems(trailing:
+            }.navigationBarTitle("添加新商品", displayMode: .inline)
+            .navigationBarItems(leading:
                                     Button(action: {
-                                        print(newGood)
-                                        CloudKitHelper.save(good:newGood){ result in
-                                            switch result {
-                                            case .success:
-                                                self.showSuccessStoreAlert = true
-                                            case .failure:
-                                                print("fail")
-                                            }
-                                        }
-                                        
-                                        self.newGood =  Good( name: "", description: "", unit: "",  stock: 0 , shelfNumber:"",shelfPosition:"",code:"",minimumStock:0,days2Sell:0)
-                                        
                                     }, label: {
-                                        Text("保存")
-                                    })
+                                        Text("取消")
+                                        
+                                    }), trailing:
+                                        Button(action: {
+//                                            print(newGood)
+                                            CloudKitHelper.save(good:newGood){ result in
+                                                switch result {
+                                                case .success:
+                                                    self.showSuccessStoreAlert = true
+                                                case .failure:
+                                                    print("fail")
+                                                }
+                                            }
+                                            
+                                            self.newGood =  Good( name: "", description: "", unit: "",  stock: 0 , shelfNumber:"",shelfPosition:"",code:"",minimumStock:0,days2Sell:0)
+                                            
+                                        }, label: {
+                                            Text("保存")
+                                        })
             )
         }.alert(isPresented: $showSuccessStoreAlert) {
             Alert(title: Text("保存成功"), message: Text("well done!"))
@@ -161,10 +170,10 @@ struct AddGood: View {
     }
     
     
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
-    }
+//    func getDocumentsDirectory() -> URL {
+//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//        return paths[0]
+//    }
     
 }
 
