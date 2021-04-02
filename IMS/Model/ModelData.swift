@@ -17,10 +17,8 @@ final class ModelData: ObservableObject{
         CloudKitHelper.fetch{ result in
             switch result{
             case .success(let newGood):
-                if !self.goods.contains(where: { $0.recordID == newGood.recordID }) {
-                    self.goods.append(newGood)
-                    completion(.success(newGood))
-                }
+                self.addGood(good: newGood)
+                completion(.success(newGood))
             case .failure(let err):
                 print(err.localizedDescription)
             }
@@ -33,6 +31,11 @@ final class ModelData: ObservableObject{
         )
     }
     
+    func addGood(good:Good) {
+        if !self.goods.contains(where: { $0.recordID == good.recordID }) {
+            self.goods.append(good)
+        }
+    }
 }
 
 

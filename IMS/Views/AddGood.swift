@@ -35,12 +35,15 @@ import PhotosUI
 
 
 struct AddGood: View {
+    @Binding var showAddGood: Bool
     
     @EnvironmentObject var modelData: ModelData
     @State private var newGood = Good( name: "", description: "", unit: "",  stock: 0 , shelfNumber:"",shelfPosition:"",code:"",minimumStock:0,days2Sell:0)
     
     @State private var showingAlert = false
     @State private var showSuccessStoreAlert = false
+    
+    
     
     
     var body: some View {
@@ -131,7 +134,7 @@ struct AddGood: View {
                     
                     HStack {
                         Text("周转天数")
-                        TextField("按最近出库量",
+                        TextField("周转天数",
                                   text:days2SellBinding)
                             .keyboardType(.decimalPad)
                         
@@ -143,43 +146,48 @@ struct AddGood: View {
             }.navigationBarTitle("添加新商品", displayMode: .inline)
             .navigationBarItems(leading:
                                     Button(action: {
+                                        self.showAddGood = false
                                     }, label: {
                                         Text("取消")
-                                        
                                     }), trailing:
                                         Button(action: {
-//                                            print(newGood)
                                             CloudKitHelper.save(good:newGood){ result in
                                                 switch result {
                                                 case .success:
-                                                    self.showSuccessStoreAlert = true
+                                                    modelData.fetchData(){ result in
+                                                        switch result{
+                                                        case .success:
+                                                            self.newGood =  Good( name: "", description: "", unit: "",  stock: 0 , shelfNumber:"",shelfPosition:"",code:"",minimumStock:0,days2Sell:0)
+                                                            
+                                                            self.showAddGood = false
+                                                        case .failure(let err):
+                                                            print(err.localizedDescription)
+                                                        }
+                                                    }
                                                 case .failure:
                                                     print("fail")
                                                 }
                                             }
-                                            
-                                            self.newGood =  Good( name: "", description: "", unit: "",  stock: 0 , shelfNumber:"",shelfPosition:"",code:"",minimumStock:0,days2Sell:0)
-                                            
                                         }, label: {
                                             Text("保存")
                                         })
             )
-        }.alert(isPresented: $showSuccessStoreAlert) {
-            Alert(title: Text("保存成功"), message: Text("well done!"))
         }
+//        .alert(isPresented: $showSuccessStoreAlert) {
+//            Alert(title: Text("保存成功"), message: Text("well done!"))
+//        }
     }
-    
-    
-//    func getDocumentsDirectory() -> URL {
-//        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-//        return paths[0]
-//    }
     
 }
 
 struct AddGoodDetail_Previews: PreviewProvider {
-    //    static let modelData = ModelData()
+    
+    
+    static let tempgood:Good = Good(name: "短夜灯", description: "test", unit: "kg", stock: 100, shelfNumber: "A1", shelfPosition: "101", code: "MTYD", minimumStock: 20, days2Sell: 2)
+    @State private var showSheetView: Bool = false
+
+
     static var previews: some View {
-        AddGood()
+        StatefulPreviewWrapper(false) { AddGood(showAddGood: $0) }
     }
 }

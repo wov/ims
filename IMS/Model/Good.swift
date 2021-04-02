@@ -27,20 +27,3 @@ struct Good:Identifiable{
     
     var OTS: Bool = false //out of stock 是否缺货
 }
-
-//extension Good {
-//    var textValue: String {
-//        get {
-//            return "\(stock).\(minimumStock).\(days2Sell)"
-//        }
-//        set {
-//            let items = newValue.components(separatedBy: ".")
-//            guard items.count == 3, let stock = Float(items[0]), let minimumStock = Float(items[1]),let days2Sell = Int(items[2]) else {
-//                return
-//            }
-//            self.stock = stock
-//            self.minimumStock = minimumStock
-//            self.days2Sell = days2Sell
-//        }
-//    }
-//}

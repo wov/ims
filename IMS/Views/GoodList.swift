@@ -41,7 +41,7 @@ struct GoodList : View {
             }
         }.onAppear{
             //添加cloudkit订阅
-            CloudKitHelper.addSubscripion()
+//            CloudKitHelper.addSubscripion()
             
             modelData.fetchData(){ result in
                 switch result{
@@ -54,7 +54,7 @@ struct GoodList : View {
             }
         }
         .sheet(isPresented: $showAddGood, content: {
-            AddGood()
+            AddGood(showAddGood:self.$showAddGood)
         })
     }
 }

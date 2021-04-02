@@ -27,27 +27,35 @@ struct CloudKitHelper {
     }
     
     static func addSubscripion(){
+        // Only proceed if the subscription doesn't already exist.
+//        guard !UserDefaults.standard.bool(forKey: "didCreateFeedSubscription")
+//            else { return }
+
+        
         // Create a subscription with an ID that's unique within the scope of
         // the user's private database.
         let subscription = CKDatabaseSubscription(subscriptionID: "feed-changes")
-
+        
         // Scope the subscription to just the 'Good' record type.
         subscription.recordType = RecordType.Goods
-                
+        
         // Configure the notification so that the system delivers it silently
         // and, therefore, doesn't require permission from the user.
         let notificationInfo = CKSubscription.NotificationInfo()
         notificationInfo.alertBody = "somthing has changed"
         notificationInfo.soundName = "default"
         notificationInfo.shouldBadge = true
-        
+        notificationInfo.shouldSendContentAvailable = true
         
         subscription.notificationInfo = notificationInfo
-                
+        
+        
         // Create an operation that saves the subscription to the server.
         let operation = CKModifySubscriptionsOperation(
             subscriptionsToSave: [subscription], subscriptionIDsToDelete: nil)
-
+        
+        
+        
         operation.modifySubscriptionsCompletionBlock = { subscriptions, deleted, error in
             if let error = error {
                 // Handle the error.
@@ -58,7 +66,7 @@ struct CloudKitHelper {
                 UserDefaults.standard.setValue(true, forKey: "didCreateFeedSubscription")
             }
         }
-                
+        
         // Set an appropriate QoS and add the operation to the private
         // database's operation queue to execute it.
         operation.qualityOfService = .utility
@@ -76,13 +84,13 @@ struct CloudKitHelper {
         goodRecord["description"] = good.description as CKRecordValue
         
         goodRecord["stock"] = NSNumber(value: good.stock) // good.stock as NSNumber
-                
+        
         goodRecord["shelfNumber"] = good.shelfNumber as CKRecordValue
         goodRecord["shelfPosition"] = good.shelfPosition as CKRecordValue
         
         goodRecord["minimumStock"] = NSNumber(value: good.minimumStock)
         goodRecord["days2Sell"] = NSNumber(value: good.days2Sell)
-
+        
         CKContainer.default().privateCloudDatabase.save(goodRecord) { (record, err) in
             DispatchQueue.main.async {
                 if let err = err {

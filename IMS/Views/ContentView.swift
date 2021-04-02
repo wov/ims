@@ -40,6 +40,22 @@ struct ContentView: View {
     }
 }
 
+
+struct StatefulPreviewWrapper<Value, Content: View>: View {
+    @State var value: Value
+    var content: (Binding<Value>) -> Content
+
+    var body: some View {
+        content($value)
+    }
+
+    init(_ value: Value, content: @escaping (Binding<Value>) -> Content) {
+        self._value = State(wrappedValue: value)
+        self.content = content
+    }
+}
+
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
@@ -73,12 +89,8 @@ class NotificationCenter: NSObject, ObservableObject {
 }
 
 extension NotificationCenter: UNUserNotificationCenterDelegate  {
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-//        completionHandler([.alert, .sound, .badge])
-//    }
-
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-//           print(#function)
+           
            completionHandler([.banner, .list, .sound])
        }
     
@@ -86,6 +98,8 @@ extension NotificationCenter: UNUserNotificationCenterDelegate  {
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         dumbData = response
+        print("recive a notifacation")
+//        print(dumbData)
         completionHandler()
     }
 
