@@ -26,6 +26,7 @@
 		837E90ED25F4479300DED288 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 837E90EC25F4479300DED288 /* CodeScanner */; };
 		83A92236260C1D9200FFEFD7 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A92235260C1D9200FFEFD7 /* Formatter.swift */; };
 		83A9223B260E16B500FFEFD7 /* StockOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A9223A260E16B500FFEFD7 /* StockOut.swift */; };
+		83A9B4622618AC34002168E0 /* EmptyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A9B4612618AC34002168E0 /* EmptyList.swift */; };
 		83C7D58826064BD1002755D8 /* CloudKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C7D58726064BD1002755D8 /* CloudKitHelper.swift */; };
 		83CD9E0825D89044000DFF62 /* GoodDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CD9E0725D89044000DFF62 /* GoodDetail.swift */; };
 		83CD9E0D25D89737000DFF62 /* AddGood.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83CD9E0C25D89737000DFF62 /* AddGood.swift */; };
@@ -79,6 +80,7 @@
 		836A0A9F25FC8EE3008B1C08 /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		83A92235260C1D9200FFEFD7 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		83A9223A260E16B500FFEFD7 /* StockOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockOut.swift; sourceTree = "<group>"; };
+		83A9B4612618AC34002168E0 /* EmptyList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyList.swift; sourceTree = "<group>"; };
 		83C7D58726064BD1002755D8 /* CloudKitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitHelper.swift; sourceTree = "<group>"; };
 		83CD9E0725D89044000DFF62 /* GoodDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodDetail.swift; sourceTree = "<group>"; };
 		83CD9E0C25D89737000DFF62 /* AddGood.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGood.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 				83CD9E0C25D89737000DFF62 /* AddGood.swift */,
 				83A9223A260E16B500FFEFD7 /* StockOut.swift */,
 				83302D1C2610691B002216F3 /* Setting.swift */,
+				83A9B4612618AC34002168E0 /* EmptyList.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -475,6 +478,7 @@
 				8322E0C125D66AAF00B4D11F /* ModelData.swift in Sources */,
 				83302D2A2610704F002216F3 /* NotificationHelper.swift in Sources */,
 				836A0AA025FC8EE3008B1C08 /* Coordinator.swift in Sources */,
+				83A9B4622618AC34002168E0 /* EmptyList.swift in Sources */,
 				8322E07625D6414C00B4D11F /* ContentView.swift in Sources */,
 				8322E07425D6414C00B4D11F /* IMSApp.swift in Sources */,
 				8322E0D725D66EBE00B4D11F /* GoodRow.swift in Sources */,
@@ -650,7 +654,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.inact.ims;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -674,7 +678,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.inact.ims;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

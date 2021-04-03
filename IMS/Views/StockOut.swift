@@ -40,6 +40,7 @@ struct StockOut: View {
                     )
                     
                 }.padding()
+                Spacer()
             }.navigationBarItems(trailing: Button("保存", action: {
                 self.saveChangeToCloudKit(good: good)
             }).disabled(outStockNumber == 0)

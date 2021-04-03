@@ -13,23 +13,30 @@ import Combine
 final class ModelData: ObservableObject{
     @Published var goods :[Good] = []
     
-    func fetchData( completion: @escaping (Result<Good, Error>) -> ()) {
-        CloudKitHelper.fetch{ result in
+    func fetchData( completion: @escaping (Result<Good?, Error>) -> ()) {
+        CloudKitHelper.fetch{ result in            
             switch result{
-            case .success(let newGood):
-                self.addGood(good: newGood)
-                completion(.success(newGood))
+            case .success(let good):
+                if let newGood = good{
+                    self.addGood(good: newGood)
+                    completion(.success(newGood))
+                }else{
+                    completion(.success(nil))
+                }
             case .failure(let err):
-                print(err.localizedDescription)
+                completion(.failure(err))
             }
         }
     }
+    
+    
     var shelfs: [String: [Good]] {
         Dictionary(
             grouping: goods,
             by: { $0.shelfNumber }
         )
     }
+    
     
     func addGood(good:Good) {
         if !self.goods.contains(where: { $0.recordID == good.recordID }) {

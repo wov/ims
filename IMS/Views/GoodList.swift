@@ -11,7 +11,6 @@ struct GoodList : View {
     @EnvironmentObject var modelData: ModelData
     @State private var showAlert = false
     @State private var loading = true
-    
     @State private var showAddGood: Bool = false
     
     var body: some View{
@@ -19,35 +18,47 @@ struct GoodList : View {
             if self.loading{
                 ProgressView()
             }else{
-                List{
-                    ForEach(modelData.shelfs.keys.sorted(), id: \.self) { key in
-                        Section(header: Text("货架：\(key)")){
-                            ForEach(modelData.shelfs[key] ?? []){ good in
-                                NavigationLink(
-                                    destination: GoodDetail(good: good)){
-                                    GoodRow(good: good)
-                                }
+                
+                VStack{
+                    
+                    if modelData.goods.isEmpty {
+                        EmptyList()
+                    }else{
+                        List{
+                            ForEach(modelData.shelfs.keys.sorted(), id: \.self) { key in
+                                Section(header: Text("货架：\(key)")){
+                                    ForEach(modelData.shelfs[key] ?? []){ good in
+                                        NavigationLink(
+                                            destination: GoodDetail(good: good)){
+                                            GoodRow(good: good)
+                                        }
+                                    }
+                                }.textCase(nil)
                             }
-                        }.textCase(nil)
+                        }
+                       
                     }
-                }
-                .navigationTitle("商品列表")
+                    
+                    
+                } .navigationTitle("商品列表")
                 .navigationBarItems(trailing: Button(action: {
                     self.showAddGood.toggle()
                 }){
                     Text("添加商品")
-//                    Image(systemName: "plus.square.fill")
                 })
+                
+
+
             }
         }.onAppear{
             //添加cloudkit订阅
-//            CloudKitHelper.addSubscripion()
-            
+            CloudKitHelper.addSubscripion()
             modelData.fetchData(){ result in
                 switch result{
                 case .success:
                     self.loading = false
                 case .failure(let err):
+                    self.loading = false
                     print(err.localizedDescription)
                 }
                 
