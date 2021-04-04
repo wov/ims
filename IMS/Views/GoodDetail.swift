@@ -9,9 +9,11 @@ import SwiftUI
 
 struct GoodDetail: View {
     @EnvironmentObject var modelData: ModelData
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var good: Good
     @State private var showStockOut: Bool = false
+    @State private var showAlert: Bool = false
     
     var goodIndex: Int {
         modelData.goods.firstIndex(where: {$0.recordID == good.recordID})!
@@ -75,8 +77,17 @@ struct GoodDetail: View {
             
             Section(){
                 Button("删除",action:{
-                    self.delGood(good: good)
-                })
+                    self.showAlert = true
+                }).alert(isPresented:$showAlert) {
+                    Alert(
+                        title: Text("删除商品"),
+                        message: Text("确定删除该商品吗？"),
+                        primaryButton: .destructive(Text("删除")) {
+                            self.delGood(good: good)
+                        },
+                        secondaryButton: .cancel()
+                    )
+                }
             }
             
         }.navigationTitle(good.name)
@@ -87,8 +98,16 @@ struct GoodDetail: View {
     }
     
     func delGood(good:Good){
-        CloudKitHelper.delete(recordID: good.recordID! , completion: {_ in 
-            
+        CloudKitHelper.delete(recordID: good.recordID! , completion: {result in
+            switch result{
+            case .success:
+                modelData.remove(good: good)
+                self.presentationMode.wrappedValue.dismiss()
+            case .failure(let err):
+                print(err)
+                
+                
+            }
         })
     }
 }
@@ -100,6 +119,5 @@ struct GoodDetail_Previews: PreviewProvider {
     static var previews: some View {
         GoodDetail(good: modelData.goods[0])
             .environmentObject(modelData)
-        //        GoodDetail(good: goods[0])
     }
 }

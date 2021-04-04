@@ -43,6 +43,13 @@ final class ModelData: ObservableObject{
             self.goods.append(good)
         }
     }
+    
+    func remove(good:Good) {
+        
+        if let index = self.goods.firstIndex(where: { $0.recordID == good.recordID }) {
+            self.goods.remove(at: index)
+        }
+    }
 }
 
 
