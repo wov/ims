@@ -153,17 +153,10 @@ struct AddGood: View {
                                         Button(action: {
                                             CloudKitHelper.save(good:newGood){ result in
                                                 switch result {
-                                                case .success:
-                                                    modelData.fetchData(){ result in
-                                                        switch result{
-                                                        case .success:
-                                                            self.newGood =  Good( name: "", description: "", unit: "",  stock: 0 , shelfNumber:"",shelfPosition:"",code:"",minimumStock:0,days2Sell:0)
-                                                            
-                                                            self.showAddGood = false
-                                                        case .failure(let err):
-                                                            print(err.localizedDescription)
-                                                        }
-                                                    }
+                                                case .success(let addedGood):
+                                                    modelData.addGood(good: addedGood)
+                                                    self.newGood =  Good( name: "", description: "", unit: "",  stock: 0 , shelfNumber:"",shelfPosition:"",code:"",minimumStock:0,days2Sell:0)
+                                                    self.showAddGood = false
                                                 case .failure:
                                                     print("fail")
                                                 }

@@ -14,6 +14,7 @@ final class ModelData: ObservableObject{
     @Published var goods :[Good] = []
     
     func fetchData( completion: @escaping (Result<Good?, Error>) -> ()) {
+        print("start fetch data...")
         CloudKitHelper.fetch{ result in            
             switch result{
             case .success(let good):
