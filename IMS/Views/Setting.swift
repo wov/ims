@@ -39,13 +39,18 @@ struct Setting: View {
                                 }
                                 
                             })
-                            
                         }
                 }
                 
+                
+                HStack{
+                    Button("添加成员",action:{
+                        
+                        
+                    })
+                }
             }.navigationTitle("设置")
         }.onAppear{
-            
             NotificationHelper.getNotificationStatus(){ result in
                 switch result {
                 case .success:
@@ -54,26 +59,11 @@ struct Setting: View {
                     print("fail")
                 }
             }
-            
-//            let notificationPermission: Bool = NotificationHelper.getNotificationStatus()
-//            print("the notifacation is:")
-//            print(notificationPermission)
-//            switch notificationPermission{
-//            case true:
-//                self.hasNotifacationPermission = true
-//            case false:
-//                self.hasNotifacationPermission = false
-//            }
         }
-        
-        
-        
     }
 }
 
 struct Setting_Previews: PreviewProvider {
-    
-    
     static var previews: some View {
         Setting()
         

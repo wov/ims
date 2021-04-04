@@ -81,7 +81,7 @@ struct GoodDetail: View {
                 }).alert(isPresented:$showAlert) {
                     Alert(
                         title: Text("删除商品"),
-                        message: Text("确定删除该商品吗？"),
+                        message: Text("确定删除\(good.name)吗？"),
                         primaryButton: .destructive(Text("删除")) {
                             self.delGood(good: good)
                         },

@@ -27,11 +27,11 @@ struct CloudKitHelper {
     }
     
     static func addSubscripion(){
-//        let container =  CKContainer.default()
-//        let db = container.privateCloudDatabase
-//        db.fetchAllSubscriptions { (subscriptions, error) in
-//            print(subscriptions)
-//        }
+        //        let container =  CKContainer.default()
+        //        let db = container.sharedCloudDatabase
+        //        db.fetchAllSubscriptions { (subscriptions, error) in
+        //            print(subscriptions)
+        //        }
     }
     
     // MARK: - saving to CloudKit
@@ -52,7 +52,7 @@ struct CloudKitHelper {
         goodRecord["minimumStock"] = NSNumber(value: good.minimumStock)
         goodRecord["days2Sell"] = NSNumber(value: good.days2Sell)
         
-        CKContainer.default().privateCloudDatabase.save(goodRecord) { (record, err) in
+        CKContainer.default().sharedCloudDatabase.save(goodRecord) { (record, err) in
             DispatchQueue.main.async {
                 if let err = err {
                     completion(.failure(err))
@@ -125,7 +125,7 @@ struct CloudKitHelper {
         
         operation.queryCompletionBlock = { (/*cursor*/ _, err) in
             DispatchQueue.main.async {
-//                print("has query all the records")
+                //                print("has query all the records")
                 if let err = err {
                     completion(.failure(err))
                     return
@@ -135,12 +135,12 @@ struct CloudKitHelper {
             
         }
         
-        CKContainer.default().privateCloudDatabase.add(operation)
+        CKContainer.default().sharedCloudDatabase.add(operation)
     }
     
     // MARK: - delete from CloudKit
     static func delete(recordID: CKRecord.ID, completion: @escaping (Result<CKRecord.ID, Error>) -> ()) {
-        CKContainer.default().privateCloudDatabase.delete(withRecordID: recordID) { (recordID, err) in
+        CKContainer.default().sharedCloudDatabase.delete(withRecordID: recordID) { (recordID, err) in
             DispatchQueue.main.async {
                 if let err = err {
                     completion(.failure(err))
@@ -158,7 +158,7 @@ struct CloudKitHelper {
     // 修改库存量
     static func changeStock(good:Good , changeStock: Float, completion:  @escaping (Result<Good, Error>) -> ()){
         guard let recordID = good.recordID else { return }
-        CKContainer.default().privateCloudDatabase.fetch(withRecordID: recordID){ record,err in
+        CKContainer.default().sharedCloudDatabase.fetch(withRecordID: recordID){ record,err in
             if let err = err {
                 DispatchQueue.main.async {
                     completion(.failure(err))
@@ -176,7 +176,7 @@ struct CloudKitHelper {
             record["stock"] = NSNumber(value: good.stock + changeStock)
             
             
-            CKContainer.default().privateCloudDatabase.save(record) { (record, err) in
+            CKContainer.default().sharedCloudDatabase.save(record) { (record, err) in
                 DispatchQueue.main.async {
                     if let err = err {
                         completion(.failure(err))
