@@ -44,10 +44,9 @@ struct Setting: View {
                 
                 
                 HStack{
-                    Button("添加成员",action:{
-                        
-                        
-                    })
+                    Text("添加成员")
+                    Spacer()
+                    UIKitCloudKitSharingButton()
                 }
             }.navigationTitle("设置")
         }.onAppear{
