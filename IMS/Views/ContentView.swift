@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject var notificationCenter = NotificationCenter()
+//    @StateObject var notificationCenter = NotificationCenter()
 
 
 //    @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate

@@ -36,7 +36,7 @@ struct CloudKitHelper {
     
     // MARK: - saving to CloudKit
     static func save(good: Good, completion: @escaping (Result<Good, Error>) -> ()) {
-//        let recordID = CKRecord.ID(zoneID: )
+        //        let recordID = CKRecord.ID(zoneID: )
         let ckRecordZoneID = CKRecordZone(zoneName: "sharedZone")
         let ckRecordID = CKRecord.ID(zoneID: ckRecordZoneID.zoneID)
         
@@ -163,32 +163,113 @@ struct CloudKitHelper {
     
     //分享数据库
     
-//    static func shareStorage(){
-//        let ckRecordZoneID = CKRecordZone(zoneName: "sharedZone")
-//        let ckRecordID = CKRecord.ID(zoneID: ckRecordZoneID.zoneID)
-//
-//        let goodRecord = CKRecord(recordType: RecordType.Goods,recordID: ckRecordID)
-//        let share = CKShare(rootRecord:goodRecord)
-//        
-//        share[CKShare.SystemFieldKey.title] = "share this record?" as CKRecordValue?
-//        
-//        let sharingController = UICloudSharingController
-//            (preparationHandler: {(UICloudSharingController, handler:
-//            @escaping (CKShare?, CKContainer?, Error?) -> Void) in
-//            let modifyOp = CKModifyRecordsOperation(recordsToSave:
-//                [employeeRecord, share], recordIDsToDelete: nil)
-//            modifyOp.modifyRecordsCompletionBlock = { (record, recordID,
-//                error) in
-//                handler(share, CKContainer.default(), error)
-//            }
-//            CKContainer.default().privateCloudDatabase.add(modifyOp)
-//        })
-//        sharingController.availablePermissions = [.allowReadWrite,
-//            .allowPrivate]
-//        sharingController.delegate = self
-//        self.present(sharingController, animated:true, completion:nil)
-//    }
-//    
+    static func shareStorage(){
+        //        let ckRecordZoneID = CKRecordZone(zoneName: "sharedZone")
+        //        let ckRecordID = CKRecord.ID(zoneID: ckRecordZoneID.zoneID)
+        //
+        //        let goodRecord = CKRecord(recordType: RecordType.Goods,recordID: ckRecordID)
+        //        let share = CKShare(rootRecord:goodRecord)
+        //        share.publicPermission = .readWrite
+        //
+        //
+        //        let modifyRecordsOp = CKModifyRecordsOperation(recordsToSave: [share], recordIDsToDelete: nil)
+        //
+        //        let container  = CKContainer.default()
+        //
+        //        let sharingController = UICloudSharingController(share: share,container: container)
+        //
+        //
+        //
+    }
+    
+    func addParticipant(  completion: @escaping (Result<[CKShare.Participant], Error>) -> Void){
+        
+        
+        let ckRecordZoneID = CKRecordZone(zoneName: "sharedZone")
+        let ckRecordID = CKRecord.ID(zoneID: ckRecordZoneID.zoneID)
+        
+        let goodRecord = CKRecord(recordType: RecordType.Goods,recordID: ckRecordID)
+        let share = CKShare(rootRecord:goodRecord)
+        share.publicPermission = .readWrite
+                
+        
+        share[CKShare.SystemFieldKey.title] = "Equipo" as CKRecordValue?
+        share[CKShare.SystemFieldKey.shareType] = "Some type" as CKRecordValue?
+        
+        
+    }
+    
+    
+    func fetchShareMetadata(for shareURLs: [URL],
+        completion: @escaping (Result<[URL: CKShare.Metadata], Error>) -> Void) {
+            
+        var cache = [URL: CKShare.Metadata]()
+            
+        // Create the fetch operation using the share URLs that
+        // the caller provides to the method.
+        let operation = CKFetchShareMetadataOperation(shareURLs: shareURLs)
+            
+        // Request that CloudKit includes the root record in
+        // the metadata it returns to reduce network requests.
+        operation.shouldFetchRootRecord = true
+            
+        // Cache the metadata that CloudKit returns using the
+        // share URL. This implementation ignores per-metadata
+        // fetch errors and handles any errors in the completion
+        // closure instead.
+        operation.perShareMetadataBlock = { url, metadata, _ in
+            guard let metadata = metadata else { return }
+            cache[url] = metadata
+        }
+            
+        // If the operation fails, return the error to the caller.
+        // Otherwise, return the array of participants.
+        operation.fetchShareMetadataCompletionBlock = { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(cache))
+            }
+        }
+            
+        // Set an appropriate QoS and add the operation to the
+        // container's queue to execute it.
+        operation.qualityOfService = .userInitiated
+        CKContainer.default().add(operation)
+    }
+    
+    func fetchParticipants(for lookupInfos: [CKUserIdentity.LookupInfo],
+                           completion: @escaping (Result<[CKShare.Participant], Error>) -> Void) {
+        
+        var participants = [CKShare.Participant]()
+        
+        // Create the operation using the lookup objects
+        // that the caller provides to the method.
+        let operation = CKFetchShareParticipantsOperation(
+            userIdentityLookupInfos: lookupInfos)
+        
+        // Collect the participants as CloudKit generates them.
+        operation.shareParticipantFetchedBlock = { participant in
+            participants.append(participant)
+        }
+        
+        // If the operation fails, return the error to the caller.
+        // Otherwise, return the array of participants.
+        operation.fetchShareParticipantsCompletionBlock = { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(participants))
+            }
+        }
+        
+        // Set an appropriate QoS and add the operation to the
+        // container's queue to execute it.
+        operation.qualityOfService = .userInitiated
+        CKContainer.default().add(operation)
+    }
+    
+    
     
     // 修改库存量
     static func changeStock(good:Good , changeStock: Float, completion:  @escaping (Result<Good, Error>) -> ()){

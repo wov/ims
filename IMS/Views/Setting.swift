@@ -7,10 +7,12 @@
 
 //import Foundation
 import SwiftUI
+import CloudKit
 
 struct Setting: View {
     
     @State private var hasNotifacationPermission = false
+    @State private var showCloudShare = false
     
     
     var body: some View {
@@ -43,10 +45,30 @@ struct Setting: View {
                 }
                 
                 
-                HStack{
+                HStack(){
                     Text("添加成员")
                     Spacer()
-                    UIKitCloudKitSharingButton()
+                    Button("add",action:{
+                        self.showCloudShare = true
+                        //                        let user = CKUserIdentity.LookupInfo(emailAddress: "contact@inactstudio.com")
+                        //                        CloudKitHelper().fetchParticipants(for: [user]){ result in
+                        //                            switch result{
+                        //                            case .success(let participants):
+                        //                                for par in participants{
+                        //                                    CloudKitHelper().addParticipant(par: par)
+                        //                                }
+                        //                                break;
+                        //                            case .failure(let err):
+                        //                                print(err)
+                        //                                break
+                        //
+                        //
+                        //                            }
+                        //
+                        //                        }
+                        
+                        
+                    })
                 }
             }.navigationTitle("设置")
         }.onAppear{
@@ -58,6 +80,9 @@ struct Setting: View {
                     print("fail")
                 }
             }
+        }.sheet(isPresented: $showCloudShare){
+            CloudSharingController(isShowing: $showCloudShare)
+                .frame(width: 0, height: 0)
         }
     }
 }
