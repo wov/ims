@@ -24,7 +24,12 @@ struct ContentView: View {
     var body: some View {
         
         TabView(selection: $selection){
-            GoodList()
+//            WareHouse()
+            
+            
+            
+            
+            StoreList()
                 .tabItem {
                     Label("我的商品",systemImage:"list.dash")
                 }
@@ -35,6 +40,8 @@ struct ContentView: View {
                     Label("设置",systemImage:"gearshape.fill")
                 }
                 .tag(Tab.setting)
+            
+            
         }
         
     }

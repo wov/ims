@@ -8,20 +8,40 @@
 import Foundation
 import Combine
 //import CloudKit
-
-
+//todo：change to use coredata.
 final class ModelData: ObservableObject{
     @Published var goods :[Good] = []
+    @Published var stores : [Store] = []
     
     func fetchData( completion: @escaping (Result<Good?, Error>) -> ()) {
         print("start fetch data...")
-        CloudKitHelper.fetch{ result in            
+        CloudKitHelper.fetch{ result in
             switch result{
             case .success(let good):
                 if let newGood = good{
                     self.addGood(good: newGood)
                     completion(.success(newGood))
                 }else{
+                    completion(.success(nil))
+                }
+            case .failure(let err):
+                completion(.failure(err))
+            }
+        }
+    }
+    
+    func fetchStores( completion: @escaping (Result<Store?,Error>) ->()) {
+        print("start fetch Stores...")
+        
+        CloudKitHelper.fetchStore{ result in
+            switch result{
+            case .success(let store):
+                if let newStore = store{
+                    print(newStore)
+                    self.addStore(store: newStore)
+                    completion(.success(newStore))
+                }else{
+                    //MARK: is that wrong?
                     completion(.success(nil))
                 }
             case .failure(let err):
@@ -45,8 +65,13 @@ final class ModelData: ObservableObject{
         }
     }
     
+    func addStore(store:Store) {
+        if !self.stores.contains(where: { $0.recordID == store.recordID }) {
+            self.stores.append(store)
+        }
+    }
+    
     func remove(good:Good) {
-        
         if let index = self.goods.firstIndex(where: { $0.recordID == good.recordID }) {
             self.goods.remove(at: index)
         }

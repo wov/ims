@@ -4,11 +4,7 @@
 //
 //  Created by wov on 2021/2/12.
 //
-
-//import Foundation
-import SwiftUI
 import CloudKit
-
 
 struct Good:Identifiable{
     var id = UUID()
@@ -26,4 +22,6 @@ struct Good:Identifiable{
     var days2Sell: Int // 最近销量动态预警
     
     var OTS: Bool = false //out of stock 是否缺货
+    
+    
 }

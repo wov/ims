@@ -16,6 +16,7 @@ struct CloudKitHelper {
     struct RecordType {
         static let Goods = "goods"
         static let inouts = "inouts"
+        static let stores = "stores"
     }
     
     // MARK: - errors
@@ -34,13 +35,63 @@ struct CloudKitHelper {
         //        }
     }
     
+    static func saveStore(store: Store,  completion: @escaping (Result<Store, Error>) -> ()){
+        let ckRecordZoneID = CKRecordZone(zoneName: "sharedZone")
+        let ckRecordID = CKRecord.ID(zoneID: ckRecordZoneID.zoneID)
+
+        let storeRecord = CKRecord(recordType: RecordType.stores, recordID: ckRecordID)
+        
+        storeRecord["name"] = store.name as CKRecordValue
+        storeRecord["description"] = store.description as CKRecordValue
+        storeRecord["address"] = store.address as CKRecordValue
+        
+        CKContainer.default().privateCloudDatabase.save(storeRecord){ (record , err) in
+            
+            DispatchQueue.main.async {
+                if let err = err{
+                    completion(.failure(err))
+                    return
+                }
+                guard let record = record else{
+                    completion(.failure(CloudKitHelperError.recordFailure))
+                    return
+                }
+                
+                guard let name = record["name"] as? String,
+                      let description = record["description"] as? String,
+                      let address = record["address"] as? String
+                else {
+                    completion(.failure(CloudKitHelperError.castFailure))
+                    return
+                }
+                
+                let store = Store(name: name, description: description, address: address)
+                completion(.success(store))
+            }
+        }
+    }
+    
+    
+    
+    
     // MARK: - saving to CloudKit
     static func save(good: Good, completion: @escaping (Result<Good, Error>) -> ()) {
         //        let recordID = CKRecord.ID(zoneID: )
+        // Todo: need set parent root.
+        
+        
+        
+        
+        
+        
+        
+        
         let ckRecordZoneID = CKRecordZone(zoneName: "sharedZone")
         let ckRecordID = CKRecord.ID(zoneID: ckRecordZoneID.zoneID)
         
         let goodRecord = CKRecord(recordType: RecordType.Goods,recordID: ckRecordID)
+        
+        
         
         goodRecord["name"] = good.name as CKRecordValue
         goodRecord["code"] = good.code as CKRecordValue
@@ -89,9 +140,50 @@ struct CloudKitHelper {
         }
     }
     
+    //MARK: fetch store record form cloudkit
+    static func fetchStore(completion: @escaping (Result<Store?, Error>) -> ()) {
+        let pred = NSPredicate(value: true)
+        let query = CKQuery(recordType: RecordType.stores, predicate: pred)
+        
+        let operation = CKQueryOperation(query: query)
+        operation.desiredKeys = ["name","address","description"]
+        
+        operation.recordFetchedBlock = { record in
+            DispatchQueue.main.async {
+                print(record)
+                let recordID = record.recordID
+                guard let name = record["name"] as? String,
+                      let address = record["address"] as? String,
+                      let description = record["description"] as? String
+                else{
+                    completion(.failure(CloudKitHelperError.castFailure))
+                    return
+                }
+                
+                let store = Store( recordID:recordID,name: name, description: description, address: address)
+                completion(.success(store))
+            }
+        }
+        
+        operation.queryCompletionBlock = { (/*cursor*/ _, err) in
+            DispatchQueue.main.async {
+                //                print("has query all the records")
+                if let err = err {
+                    completion(.failure(err))
+                    return
+                }
+                completion(.success(nil))
+            }
+            
+        }
+        
+        CKContainer.default().privateCloudDatabase.add(operation)
+        
+
+    }
+    
     // MARK: - fetching from CloudKit
     static func fetch(completion: @escaping (Result<Good?, Error>) -> ()) {
-        
         
         let pred = NSPredicate(value: true)
         //        let sort = NSSortDescriptor(key: "creationDate", ascending: false)
@@ -177,9 +269,6 @@ struct CloudKitHelper {
         //        let container  = CKContainer.default()
         //
         //        let sharingController = UICloudSharingController(share: share,container: container)
-        //
-        //
-        //
     }
     
     func addParticipant(  completion: @escaping (Result<[CKShare.Participant], Error>) -> Void){
@@ -237,37 +326,37 @@ struct CloudKitHelper {
         operation.qualityOfService = .userInitiated
         CKContainer.default().add(operation)
     }
-    
-    func fetchParticipants(for lookupInfos: [CKUserIdentity.LookupInfo],
-                           completion: @escaping (Result<[CKShare.Participant], Error>) -> Void) {
-        
-        var participants = [CKShare.Participant]()
-        
-        // Create the operation using the lookup objects
-        // that the caller provides to the method.
-        let operation = CKFetchShareParticipantsOperation(
-            userIdentityLookupInfos: lookupInfos)
-        
-        // Collect the participants as CloudKit generates them.
-        operation.shareParticipantFetchedBlock = { participant in
-            participants.append(participant)
-        }
-        
-        // If the operation fails, return the error to the caller.
-        // Otherwise, return the array of participants.
-        operation.fetchShareParticipantsCompletionBlock = { error in
-            if let error = error {
-                completion(.failure(error))
-            } else {
-                completion(.success(participants))
-            }
-        }
-        
-        // Set an appropriate QoS and add the operation to the
-        // container's queue to execute it.
-        operation.qualityOfService = .userInitiated
-        CKContainer.default().add(operation)
-    }
+//
+//    func fetchParticipants(for lookupInfos: [CKUserIdentity.LookupInfo],
+//                           completion: @escaping (Result<[CKShare.Participant], Error>) -> Void) {
+//
+//        var participants = [CKShare.Participant]()
+//
+//        // Create the operation using the lookup objects
+//        // that the caller provides to the method.
+//        let operation = CKFetchShareParticipantsOperation(
+//            userIdentityLookupInfos: lookupInfos)
+//
+//        // Collect the participants as CloudKit generates them.
+//        operation.shareParticipantFetchedBlock = { participant in
+//            participants.append(participant)
+//        }
+//
+//        // If the operation fails, return the error to the caller.
+//        // Otherwise, return the array of participants.
+//        operation.fetchShareParticipantsCompletionBlock = { error in
+//            if let error = error {
+//                completion(.failure(error))
+//            } else {
+//                completion(.success(participants))
+//            }
+//        }
+//
+//        // Set an appropriate QoS and add the operation to the
+//        // container's queue to execute it.
+//        operation.qualityOfService = .userInitiated
+//        CKContainer.default().add(operation)
+//    }
     
     
     

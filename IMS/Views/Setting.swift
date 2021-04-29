@@ -50,24 +50,6 @@ struct Setting: View {
                     Spacer()
                     Button("add",action:{
                         self.showCloudShare = true
-                        //                        let user = CKUserIdentity.LookupInfo(emailAddress: "contact@inactstudio.com")
-                        //                        CloudKitHelper().fetchParticipants(for: [user]){ result in
-                        //                            switch result{
-                        //                            case .success(let participants):
-                        //                                for par in participants{
-                        //                                    CloudKitHelper().addParticipant(par: par)
-                        //                                }
-                        //                                break;
-                        //                            case .failure(let err):
-                        //                                print(err)
-                        //                                break
-                        //
-                        //
-                        //                            }
-                        //
-                        //                        }
-                        
-                        
                     })
                 }
             }.navigationTitle("设置")

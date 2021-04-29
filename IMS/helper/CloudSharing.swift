@@ -13,10 +13,8 @@ struct CloudSharingController: UIViewControllerRepresentable {
         let ckRecordZoneID = CKRecordZone(zoneName: "sharedZone")
         let ckRecordID = CKRecord.ID(zoneID: ckRecordZoneID.zoneID)
         let goodRecord = CKRecord(recordType: "goods",recordID: ckRecordID)
-        
         host.rootRecord = goodRecord
         host.container = CKContainer.default()
-        
         return host
     }
     
@@ -39,7 +37,7 @@ final class CloudControllerHost: UIViewController {
         let sharingController = shareController
         print("Presenting controller")
         isPresented = true
-        present(sharingController, animated: true) {
+        present(sharingController, animated: false) {
             print("Controller did appear")
         }
     }

@@ -43,9 +43,6 @@ struct AddGood: View {
     @State private var showingAlert = false
     @State private var showSuccessStoreAlert = false
     
-    
-    
-    
     var body: some View {
         
         let stockBinding = Binding<String>(get: {
