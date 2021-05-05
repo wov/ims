@@ -26,9 +26,6 @@ struct ContentView: View {
         TabView(selection: $selection){
 //            WareHouse()
             
-            
-            
-            
             StoreList()
                 .tabItem {
                     Label("我的商品",systemImage:"list.dash")

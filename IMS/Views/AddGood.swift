@@ -36,6 +36,7 @@ import PhotosUI
 
 struct AddGood: View {
     @Binding var showAddGood: Bool
+    @Binding var currentStore: Store
     
     @EnvironmentObject var modelData: ModelData
     @State private var newGood = Good( name: "", description: "", unit: "",  stock: 0 , shelfNumber:"",shelfPosition:"",code:"",minimumStock:0,days2Sell:0)
@@ -148,7 +149,7 @@ struct AddGood: View {
                                         Text("取消")
                                     }), trailing:
                                         Button(action: {
-                                            CloudKitHelper.save(good:newGood){ result in
+                                            CloudKitHelper.save(good:newGood,parentRecordID: currentStore.recordID!){ result in
                                                 switch result {
                                                 case .success(let addedGood):
                                                     modelData.addGood(good: addedGood)
@@ -170,14 +171,14 @@ struct AddGood: View {
     
 }
 
-struct AddGoodDetail_Previews: PreviewProvider {
-    
-    
-    static let tempgood:Good = Good(name: "短夜灯", description: "test", unit: "kg", stock: 100, shelfNumber: "A1", shelfPosition: "101", code: "MTYD", minimumStock: 20, days2Sell: 2)
-    @State private var showSheetView: Bool = false
-
-
-    static var previews: some View {
-        StatefulPreviewWrapper(false) { AddGood(showAddGood: $0) }
-    }
-}
+//struct AddGoodDetail_Previews: PreviewProvider {
+//    
+//    
+//    static let tempgood:Good = Good(name: "短夜灯", description: "test", unit: "kg", stock: 100, shelfNumber: "A1", shelfPosition: "101", code: "MTYD", minimumStock: 20, days2Sell: 2)
+//    @State private var showSheetView: Bool = false
+//
+//
+//    static var previews: some View {
+//        StatefulPreviewWrapper(false) { AddGood(showAddGood: $0) }
+//    }
+//}

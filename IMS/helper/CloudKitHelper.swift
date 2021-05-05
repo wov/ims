@@ -19,6 +19,11 @@ struct CloudKitHelper {
         static let stores = "stores"
     }
     
+//    var getedStore:CKRecord
+//    struct MyVariables {
+//        static var getedStore:CKRecord
+//    }
+    
     // MARK: - errors
     enum CloudKitHelperError: Error {
         case recordFailure
@@ -75,24 +80,25 @@ struct CloudKitHelper {
     
     
     // MARK: - saving to CloudKit
-    static func save(good: Good, completion: @escaping (Result<Good, Error>) -> ()) {
+    static func save(good: Good,parentRecordID : CKRecord.ID, completion: @escaping (Result<Good, Error>) -> ()) {
         //        let recordID = CKRecord.ID(zoneID: )
         // Todo: need set parent root.
-        
-        
-        
-        
-        
-        
-        
+//        print(parentRecordID) 
         
         let ckRecordZoneID = CKRecordZone(zoneName: "sharedZone")
         let ckRecordID = CKRecord.ID(zoneID: ckRecordZoneID.zoneID)
         
+        
+        let parentRecord = CKRecord(recordType: RecordType.stores, recordID: parentRecordID)
+
+        
         let goodRecord = CKRecord(recordType: RecordType.Goods,recordID: ckRecordID)
         
+        //添加父级，用来分享
+        goodRecord.parent = CKRecord.Reference(record: parentRecord, action: .none)
+        goodRecord["store"] = CKRecord.Reference(record: parentRecord, action: .deleteSelf)
         
-        
+    
         goodRecord["name"] = good.name as CKRecordValue
         goodRecord["code"] = good.code as CKRecordValue
         
@@ -106,6 +112,8 @@ struct CloudKitHelper {
         
         goodRecord["minimumStock"] = NSNumber(value: good.minimumStock)
         goodRecord["days2Sell"] = NSNumber(value: good.days2Sell)
+        
+        
         
         CKContainer.default().privateCloudDatabase.save(goodRecord) { (record, err) in
             DispatchQueue.main.async {
@@ -151,6 +159,8 @@ struct CloudKitHelper {
         operation.recordFetchedBlock = { record in
             DispatchQueue.main.async {
                 print(record)
+//                MyVariables.getedStore = record
+                
                 let recordID = record.recordID
                 guard let name = record["name"] as? String,
                       let address = record["address"] as? String,
@@ -412,5 +422,4 @@ struct CloudKitHelper {
             }
         }
     }
-    
 }

@@ -10,15 +10,17 @@ import SwiftUI
 struct GoodList : View {
     @EnvironmentObject var modelData: ModelData
     
-    var currentStore: Store
+    @State var currentStore: Store
     
     @State private var showAlert = false
     @State private var loading = true
     @State private var showAddGood: Bool = false
     
+    @State private var showCloudShare = false
+    
     
     var body: some View{
-        NavigationView{
+        VStack{
             if self.loading{
                 ProgressView()
             }else{
@@ -55,9 +57,9 @@ struct GoodList : View {
                     
                 } .navigationTitle("商品列表")
                 .navigationBarItems(trailing: Button(action: {
-                    self.showAddGood.toggle()
+                    self.showCloudShare.toggle()
                 }){
-                    Text("添加商品")
+                    Text("添加协作者")
                 })
                 
 
@@ -82,8 +84,12 @@ struct GoodList : View {
             }
         }
         .sheet(isPresented: $showAddGood, content: {
-            AddGood(showAddGood:self.$showAddGood)
+            AddGood(showAddGood:self.$showAddGood, currentStore: self.$currentStore)
         })
+        .sheet(isPresented: $showCloudShare){
+            CloudSharingController(isShowing: $showCloudShare,recordID: currentStore.recordID!)
+                .frame(width: 0, height: 0)
+        }
     }
     
     

@@ -12,8 +12,6 @@ import CloudKit
 struct Setting: View {
     
     @State private var hasNotifacationPermission = false
-    @State private var showCloudShare = false
-    
     
     var body: some View {
         
@@ -45,13 +43,13 @@ struct Setting: View {
                 }
                 
                 
-                HStack(){
-                    Text("添加成员")
-                    Spacer()
-                    Button("add",action:{
-                        self.showCloudShare = true
-                    })
-                }
+//                HStack(){
+//                    Text("添加成员")
+//                    Spacer()
+//                    Button("add",action:{
+//                        self.showCloudShare = true
+//                    })
+//                }
             }.navigationTitle("设置")
         }.onAppear{
             NotificationHelper.getNotificationStatus(){ result in
@@ -62,9 +60,6 @@ struct Setting: View {
                     print("fail")
                 }
             }
-        }.sheet(isPresented: $showCloudShare){
-            CloudSharingController(isShowing: $showCloudShare)
-                .frame(width: 0, height: 0)
         }
     }
 }

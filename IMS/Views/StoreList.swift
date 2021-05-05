@@ -31,7 +31,7 @@ struct StoreList : View {
                             }
                         }  
                     }
-                } .navigationTitle("商品列表")
+                } .navigationTitle("仓库列表")
                 .navigationBarItems(trailing: Button(action: {
                     self.showAddGood.toggle()
                 }){

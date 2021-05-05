@@ -4,16 +4,23 @@ import SwiftUI
 struct CloudSharingController: UIViewControllerRepresentable {
 //    @EnvironmentObject var store: CloudStore
     @Binding var isShowing: Bool
+    var recordID: CKRecord.ID
     
     func makeUIViewController(context: Context) -> CloudControllerHost {
         print("Creating host")
         let host = CloudControllerHost()
         
         
-        let ckRecordZoneID = CKRecordZone(zoneName: "sharedZone")
-        let ckRecordID = CKRecord.ID(zoneID: ckRecordZoneID.zoneID)
-        let goodRecord = CKRecord(recordType: "goods",recordID: ckRecordID)
-        host.rootRecord = goodRecord
+//        let ckRecordZoneID = CKRecordZone(zoneName: "sharedZone")
+//        let ckRecordID = CKRecord.ID(zoneID : ckRecordZoneID.zoneID)
+//        let rootStoreRecord = CKRecord(recordType: "stores",recordID: ckRecordID)
+        
+        
+        let rootStoreRecord = CKRecord(recordType: "stores", recordID: self.recordID)
+        
+        print(rootStoreRecord)
+        
+        host.rootRecord = rootStoreRecord
         host.container = CKContainer.default()
         return host
     }
@@ -69,7 +76,7 @@ final class CloudControllerHost: UIViewController {
 
 extension CloudControllerHost: UICloudSharingControllerDelegate {
     func itemTitle(for csc: UICloudSharingController) -> String? {
-        "Note Title"
+        "添加协作者"
     }
     
     func cloudSharingControllerDidSaveShare(_ csc: UICloudSharingController) {
