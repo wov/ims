@@ -51,15 +51,12 @@ struct GoodList : View {
                                 }.textCase(nil)
                             }
                         }
-                       
                     }
-                    
-                    
-                } .navigationTitle("商品列表")
+                } .navigationTitle(currentStore.name)
                 .navigationBarItems(trailing: Button(action: {
                     self.showCloudShare.toggle()
                 }){
-                    Text("添加协作者")
+                    Image(systemName: "person.crop.circle.badge.plus")
                 })
                 
 

@@ -32,11 +32,11 @@ struct StoreList : View {
                         }  
                     }
                 } .navigationTitle("仓库列表")
-                .navigationBarItems(trailing: Button(action: {
-                    self.showAddGood.toggle()
-                }){
-                    Text("添加商品")
-                })
+//                .navigationBarItems(trailing: Button(action: {
+//                    self.showAddGood.toggle()
+//                }){
+//                    Text("添加商品")
+//                })
         }.onAppear{
             //添加cloudkit订阅
             modelData.fetchStores(){ result in
